@@ -102,6 +102,7 @@ $coralURL = $util->getCORALURL();
 <?php }else{ ?>
 <a href='index.php'><img src="images/menu/menu-home<?php if ($currentPage == 'index.php') { echo "-on"; } ?>.gif" hover="images/menu/menu-home-over.gif" class="rollover" id="menu-last" /></a><img src='images/menu/menu-end<?php if ($currentPage == 'index.php') { echo "-on"; } ?>.gif' hover="images/menu/menu-end-over.gif" id="menu-end" />
 <?php } ?>
+<a href="import.php">Import</a>
 </td>
 
 <td style='width:130px;height:19px;' align='right'>
