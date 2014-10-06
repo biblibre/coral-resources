@@ -84,7 +84,12 @@ $coralURL = $util->getCORALURL();
 
 ?>
 </span>
-<br /><?php if($config->settings->authModule == 'Y'){ echo "<a href='" . $coralURL . "auth/?logout'>logout</a>"; } ?>
+<br />
+<?php
+if ($user->isAdmin() or $user->canEdit()) {
+  echo '<a href="import.php">Import</a>';
+}
+if($config->settings->authModule == 'Y'){ echo " - <a href='" . $coralURL . "auth/?logout'>logout</a>"; } ?>
 <?php if ($config->settings->testMode == 'Y') { ?>
   <br><span style="color:red;font-size:90%;">(Test)</span>
 <?php } ?>
@@ -102,7 +107,6 @@ $coralURL = $util->getCORALURL();
 <?php }else{ ?>
 <a href='index.php'><img src="images/menu/menu-home<?php if ($currentPage == 'index.php') { echo "-on"; } ?>.gif" hover="images/menu/menu-home-over.gif" class="rollover" id="menu-last" /></a><img src='images/menu/menu-end<?php if ($currentPage == 'index.php') { echo "-on"; } ?>.gif' hover="images/menu/menu-end-over.gif" id="menu-end" />
 <?php } ?>
-<a href="import.php">Import</a>
 </td>
 
 <td style='width:130px;height:19px;' align='right'>
