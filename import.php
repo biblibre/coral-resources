@@ -29,7 +29,7 @@ include 'templates/header.php';
 ?><div id="importPage"><h1>CSV File import</h1><?php
 
 // CSV configuration
-$required_columns = array('titleText' => 0, 'resourceURL' => 0, 'resourceAltUrl' => 0, 'isbnOrISSN' => 0, 'providerText' => 0);
+$required_columns = array('titleText' => 0, 'resourceURL' => 0, 'resourceAltURL' => 0, 'isbnOrISSN' => 0, 'providerText' => 0);
 
 if ($_POST['submit']) {
   $delimiter = $_POST['delimiter'];
