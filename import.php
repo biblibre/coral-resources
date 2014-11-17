@@ -137,6 +137,7 @@ if ($_POST['submit']) {
 
           
 ?>
+<p>The first line of the CSV file must contain column names, and not data. These names will be used during the import process.</p>
 <form enctype="multipart/form-data" action="import.php" method="post" id="importForm">
   <fieldset>
   <legend>File selection</legend>
