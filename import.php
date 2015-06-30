@@ -63,6 +63,8 @@ if ($_POST['submit']) {
       } 
       print '</select><br />';
     }
+    print "You can also enter a default fallback parent resource: ";
+    print "<input type=\"text\" name=\"genericParent\" />";
     print "<input type=\"hidden\" name=\"delimiter\" value=\"$delimiter\" />";
     print "<input type=\"hidden\" name=\"uploadfile\" value=\"$uploadfile\" />";
     print "<input type=\"submit\" name=\"matchsubmit\" id=\"matchsubmit\" /></form>";
@@ -217,23 +219,29 @@ if ($_POST['submit']) {
           $resource = $resources[0];
         }
           // Do we have a parent resource to create?
-          if ($data[$_POST['parentResource']] && ($deduping_count == 0 || $deduping_count == 1) ) {
+          if ($data[$_POST['parentResource']])
+            $parentResourceName = $data[$_POST['parentResource']];
+          if ($_POST['genericParent'])
+            $parentResourceName = $_POST['genericParent'];
+
+          if ($parentResourceName && ($deduping_count == 0 || $deduping_count == 1) ) {
             // Search if such parent exists
-            $numberOfParents = count($resourceObj->getResourceByTitle($data[$_POST['parentResource']]));
+            $numberOfParents = count($resourceObj->getResourceByTitle($parentResourceName));
+
             $parentID = null;
             if ($numberOfParents == 0) {
               // If not, create parent
               $parentResource = new Resource();
               $parentResource->createLoginID = $loginID;
               $parentResource->createDate    = date( 'Y-m-d' );
-              $parentResource->titleText     = $data[$_POST['parentResource']];
+              $parentResource->titleText     = $parentResourceName;
               $parentResource->statusID      = 1;
               $parentResource->save();
               $parentID = $parentResource->resourceID;
               $parentInserted++;
             } elseif ($numberOfParents == 1) {
               // Else, attach the resource to its parent.
-              $parentResource = $resourceObj->getResourceByTitle($data[$_POST['parentResource']]);
+              $parentResource = $resourceObj->getResourceByTitle($parentResourceName);
               $parentID = $parentResource[0]->resourceID;
               
               $parentAttached++; 
