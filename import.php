@@ -26,6 +26,7 @@ include 'templates/header.php';
 $required_columns = array('titleText' => 0, 'resourceURL' => 0, 'resourceAltURL' => 0, 'parentResource' => 0, 'organization' => 0, 'role' => 0);
 if ($_POST['submit']) {
   $delimiter = $_POST['delimiter'];
+  if ($delimiter == "TAB") $delimiter = "\t";
   $uploaddir = 'attachments/';
   $uploadfile = $uploaddir . basename($_FILES['uploadFile']['name']);
   if (move_uploaded_file($_FILES['uploadFile']['tmp_name'], $uploadfile)) {  
@@ -274,6 +275,7 @@ if ($_POST['submit']) {
     <option value=",">, (comma)</option>
     <option value=";">; (semicolon)</option>
     <option value="|">| (pipe)</option>
+    <option value="TAB">tabulation</option>
   </select>
   </fieldset>
   <input type="submit" name="submit" value="Upload" />
