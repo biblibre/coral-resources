@@ -16,6 +16,46 @@
 **
 **************************************************************************************************************************
 */
+
+include_once 'directory.php';
+$resourceObj = new Resource();
+$filename = $argv[1];
+$delimiter = "\t";
+
+$handle = fopen($filename, "r");
+$row = 0;
+while (($data = fgetcsv($handle, 0, $delimiter)) !== FALSE) {
+    if ($row == 0) {
+        foreach ($data as $key => $value) {
+            $cols[$value] = $key;
+        }
+    } else {
+        $title_id = $data[$cols['id_titre']];
+        if (count($resourceObj->getResourceByTitleId($title_id)) == 1) {
+            $resources = $resourceObj->getResourceByTitleId($title_id);
+            $resource = $resources[0];
+            $rp = new ResourcePayment();
+            $rp->resourceID = $resource->resourceID;
+            $rp->fundName = $data[$cols['fund_name1']];
+            $rp->paymentAmount = cost_to_integer($data[$cols['payment_amount_local']]);
+            $rp->currencyCode = ($data[$cols['transaction_currency_code']]) ? $data[$cols['transaction_currency_code']] : 'EUR';
+            $rp->year = $data[$cols['fiscal_year']];
+            $rp->costNote = $data[$cols['note']];
+            $rp->invoiceNum = $data[$cols['invoice_number']];
+            $rp->orderTypeID = 2;
+            $rp->subscriptionStartDate = $data[$cols['invoice_date']];
+            $rp->save();
+            echo "Saved \n";
+
+        }
+    }
+    $row++;
+}
+die();
+
+
+
+
 session_start();
 include_once 'directory.php';
 //print header
@@ -23,7 +63,7 @@ $pageTitle='Resources import';
 include 'templates/header.php';
 ?><div id="importPage"><h1>CSV File import</h1><?php
 // CSV configuration
-$required_columns = array('titleText' => 0, 'resourceURL' => 0, 'resourceAltURL' => 0, 'parentResource' => 0, 'organization' => 0, 'role' => 0, 'title_id' => 0);
+$required_columns = array('titleText' => 0, 'resourceURL' => 0, 'resourceAltURL' => 0, 'parentResource' => 0, 'organization' => 0, 'role' => 0);
 if ($_POST['submit']) {
   $delimiter = $_POST['delimiter'];
   if ($delimiter == "TAB") $delimiter = "\t";
@@ -118,7 +158,6 @@ if ($_POST['submit']) {
           $resource->resourceAltURL   = $data[$_POST['resourceAltURL']];
           $resource->providerText     = $data[$_POST['providerText']];
           $resource->statusID         = 1;
-          $resource->title_id         = $data[$_POST['title_id']];
           $resource->save();
           $resource->setIsbnOrIssn($deduping_values);
           $inserted++;
@@ -216,7 +255,7 @@ if ($_POST['submit']) {
             }
           }
         } elseif ($deduping_count == 1) {
-          $resources = $resourceObj->getResourceByIsbnOrISSN($deduping_values);
+          $resources = $resourceobj->getresourcebyisbnorissn($deduping_values);
           $resource = $resources[0];
         }
           // Do we have a parent resource to create?
