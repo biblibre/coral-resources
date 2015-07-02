@@ -45,8 +45,10 @@ while (($data = fgetcsv($handle, 0, $delimiter)) !== FALSE) {
             $rp->orderTypeID = 2;
             $rp->subscriptionStartDate = $data[$cols['invoice_date']];
             $rp->save();
-            echo "Saved \n";
+            echo $title_id  . " fund saved\n";
 
+        } else {
+            echo "Warning: " . count($resourceObj->getResourceByTitleId($title_id))  . " resource(s) found for " . $title_id . "\n";
         }
     }
     $row++;
