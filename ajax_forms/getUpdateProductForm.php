@@ -92,6 +92,11 @@
 					<td><input type='text' id='titleText' name='titleText' value = "<?php echo $resource->titleText; ?>" style='width:260px;' class='changeInput' /><span id='span_error_titleText' class='smallDarkRedText'></span></td>
 					</tr>
 
+                    <tr>
+					<td style='vertical-align:top;text-align:left;font-weight:bold;'><label for='firstAuthor'>First author:</label></td>
+					<td><input type='text' id='firstAuthor' name='firstAuthor' value = "<?php echo $resource->firstAuthor; ?>" style='width:260px;' class='changeInput' /></td>
+					</tr>
+
 					<tr>
 					<td style='vertical-align:top;text-align:left;font-weight:bold;'><label for='descriptionText'>Description:</label></td>
 					<td><textarea rows='4' id='descriptionText' name='descriptionText' style='width:260px' class='changeInput' ><?php echo $resource->descriptionText; ?></textarea></td>
@@ -409,10 +414,67 @@ $parentResourceObj = new Resource(new NamedArguments(array('primaryKey' => $pare
 
 			</td>
 			</tr>
-			</table>
+            </table>
 
-		</td>
+		  </td>
 		</tr>
+        <tr>
+          <td>
+            <span class='surroundBoxTitle'>&nbsp;&nbsp;<label for='resourceFormatID'><b>Issues &amp; volumes</b></label>&nbsp;&nbsp;</span>
+
+			<table class='surroundBox' style='width:300px;'>
+			<tr>
+			<td>
+
+				<table class='noBorder smallPadding newAliasTable' style='width:260px; margin:15px 20px 0px 20px;'>
+				<tr>
+                <td colspan="3"><b>First online availabilty:</b></td>
+                </tr>
+                <tr>
+                <td><label for="dateFirstIssueOnline">Date of first issue</label><input type="text" id="dateFirstIssueOnline" value = "<?php echo $resource->dateFirstIssueOnline; ?>" /></td>
+                <td><label for="numFirstVolOnline">Number of first volume</label><input type="text" id="numFirstVolOnline" value = "<?php echo $resource->numFirstVolOnline; ?>" /></td>
+                <td><label for="numFistIssueOnline">Number of first issue</label><input type="text" id="numFirstIssueOnline" value = "<?php echo $resource->numFirstIssueOnline; ?>" /></td>
+                </tr>
+                <tr>
+                <td colspan="3"><b>Last online availabilty:</b></td>
+                </tr>
+                <tr>
+                <td><label for="dateLastIssueOnline">Date of last issue</label><input type="text" id="dateLastIssueOnline" value = "<?php echo $resource->dateLastIssueOnline; ?>" /></td>
+                <td><label for="numLastVolOnline">Number of last volume</label><input type="text" id="numLastVolOnline" value = "<?php echo $resource->numLastVolOnline; ?>" /></td>
+                <td><label for="numLastIssueOnline">Number of last issue</label><input type="text" id="numLastIssueOnline" value = "<?php echo $resource->numLastIssueOnline; ?>" /></td>
+                </tr>
+                </table>
+            </td>
+            </tr>
+            </table>
+
+          </td>
+        </tr>
+        <tr>
+          <td>
+          <span class='surroundBoxTitle'>&nbsp;&nbsp;<label for='resourceFormatID'><b>Misc</b></label>&nbsp;&nbsp;</span>
+			<table class='surroundBox' style='width:300px;'>
+			<tr>
+            <td>
+
+				<table class='noBorder smallPadding newAliasTable' style='width:260px; margin:15px 20px 0px 20px;'>
+                <tr>
+                    <td style='vertical-align:top;text-align:left;font-weight:bold;'><label for='embargoInfo'>Embargo:</label></td>
+					<td><input type='text' id='embargoInfo' name='embargoInfo' value = "<?php echo $resource->embargoInfo; ?>" style='width:260px;' class='changeInput' /><span id='span_error_titleText' class='smallDarkRedText'></span></td>
+                    </tr>
+                    <tr>
+                    <td style='vertical-align:top;text-align:left;font-weight:bold;'><label for='coverageDepth'>Coverage depth:</label></td>
+					<td><input type='text' id='coverageDepth' name='coverageDepth' value = "<?php echo $resource->coverageDepth; ?>" style='width:260px;' class='changeInput' /><span id='span_error_titleText' class='smallDarkRedText'></span></td>
+                  </tr>
+                 </table>
+ 
+            </td>
+            </tr>
+            </table>
+
+
+          </td>
+        </tr>
 		</table>
 
 

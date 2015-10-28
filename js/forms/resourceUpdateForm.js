@@ -459,12 +459,16 @@ function submitProductForm(){
     });
 
 
-		$('#submitProductChanges').attr("disabled", "disabled"); 
+		$('#submitProductChanges').attr("disabled", "disabled");
+        var data = { resourceID: $("#editResourceID").val(), titleText: $("#titleText").val(), parentResourcesID: JSON.stringify(arrayparents), descriptionText: $("#descriptionText").val(), resourceURL: $("#resourceURL").val(), resourceAltURL: $("#resourceAltURL").val(), resourceFormatID: $("#resourceFormatID").val(), resourceTypeID: $("#resourceTypeID").val(), archiveInd: getCheckboxValue('archiveInd'), aliasTypes: aliasTypeList, aliasNames: aliasNameList, organizationRoles: organizationRoleList, organizations: organizationList, isbnOrISSN: JSON.stringify(arrayisbn)};
+          $.each(['dateFirstIssueOnline', 'numFirstVolOnline', 'numFirstIssueOnline', 'dateLastIssueOnline', 'numLastVolOnline', 'numLastIssueOnline', 'firstAuthor', 'embargoInfo', 'coverageDepth'], function(index, value) {
+            data[value] = $('#' + value).val();
+          });
 		  $.ajax({
 			 type:       "POST",
 			 url:        "ajax_processing.php?action=submitProductUpdate",
 			 cache:      false,
-       data:       { resourceID: $("#editResourceID").val(), titleText: $("#titleText").val(), parentResourcesID: JSON.stringify(arrayparents), descriptionText: $("#descriptionText").val(), resourceURL: $("#resourceURL").val(), resourceAltURL: $("#resourceAltURL").val(), resourceFormatID: $("#resourceFormatID").val(), resourceTypeID: $("#resourceTypeID").val(), archiveInd: getCheckboxValue('archiveInd'), aliasTypes: aliasTypeList, aliasNames: aliasNameList, organizationRoles: organizationRoleList, organizations: organizationList, isbnOrISSN: JSON.stringify(arrayisbn) },
+             data: data,
 
 			 success:    function(html) {
 				if (html){

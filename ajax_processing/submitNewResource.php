@@ -38,7 +38,7 @@
 		$resource->storageLocationID		= '';
 		$resource->registeredIPAddresses 	= '';
 		$resource->providerText			 	= $_POST['providerText'];
-		$resource->coverageText 			= '';
+		$resource->coverageText 			= ''
 
 		if ($_POST['resourceURL'] != 'http://'){
 			$resource->resourceURL = $_POST['resourceURL'];
