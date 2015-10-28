@@ -7,13 +7,7 @@
 		$resource->updateLoginID 		= $loginID;
 		$resource->updateDate			= date( 'Y-m-d H:i:s' );
 
-		$resource->titleText 			= $_POST['titleText'];
-		$resource->descriptionText 		= $_POST['descriptionText'];
-		$resource->resourceFormatID 	= $_POST['resourceFormatID'];
-		$resource->resourceTypeID 		= $_POST['resourceTypeID'];
-		$resource->resourceURL 			= $_POST['resourceURL'];
-		$resource->resourceAltURL 		= $_POST['resourceAltURL'];
-        foreach(array('dateFirstIssueOnline', 'numFirstVolOnline', 'numFirstIssueOnline', 'dateLastIssueOnline', 'numLastVolOnline', 'numLastIssueOnline', 'firstAuthor', 'embargoInfo', 'coverageDepth') as $field) {
+        foreach(array('titleText', 'descriptionText', 'resourceFormatID', 'resourceTypeID', 'resourceURL', 'resourceAltURL', 'dateFirstIssueOnline', 'numFirstVolOnline', 'numFirstIssueOnline', 'dateLastIssueOnline', 'numLastVolOnline', 'numLastIssueOnline', 'firstAuthor', 'embargoInfo', 'coverageDepth') as $field) {
             $resource->$field = $_POST["$field"];
         }
 

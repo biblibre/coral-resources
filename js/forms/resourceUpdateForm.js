@@ -460,8 +460,8 @@ function submitProductForm(){
 
 
 		$('#submitProductChanges').attr("disabled", "disabled");
-        var data = { resourceID: $("#editResourceID").val(), titleText: $("#titleText").val(), parentResourcesID: JSON.stringify(arrayparents), descriptionText: $("#descriptionText").val(), resourceURL: $("#resourceURL").val(), resourceAltURL: $("#resourceAltURL").val(), resourceFormatID: $("#resourceFormatID").val(), resourceTypeID: $("#resourceTypeID").val(), archiveInd: getCheckboxValue('archiveInd'), aliasTypes: aliasTypeList, aliasNames: aliasNameList, organizationRoles: organizationRoleList, organizations: organizationList, isbnOrISSN: JSON.stringify(arrayisbn)};
-          $.each(['dateFirstIssueOnline', 'numFirstVolOnline', 'numFirstIssueOnline', 'dateLastIssueOnline', 'numLastVolOnline', 'numLastIssueOnline', 'firstAuthor', 'embargoInfo', 'coverageDepth'], function(index, value) {
+          var data = { resourceID: $("#editResourceID").val(), parentResourcesID: JSON.stringify(arrayparents), archiveInd: getCheckboxValue('archiveInd'), aliasTypes: aliasTypeList, aliasNames: aliasNameList, organizationRoles: organizationRoleList, organizations: organizationList, isbnOrISSN: JSON.stringify(arrayisbn)};
+          $.each(['titleText', 'descriptionText', 'resourceURL', 'resourceAltURL', 'resourceFormatID', 'resourceTypeID', 'dateFirstIssueOnline', 'numFirstVolOnline', 'numFirstIssueOnline', 'dateLastIssueOnline', 'numLastVolOnline', 'numLastIssueOnline', 'firstAuthor', 'embargoInfo', 'coverageDepth'], function(index, value) {
             data[value] = $('#' + value).val();
           });
 		  $.ajax({
