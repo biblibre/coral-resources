@@ -265,7 +265,65 @@
 				<td style='vertical-align:top;width:115px;'>Description:</td>
 				<td style='width:345px;'><?php echo nl2br($resource->descriptionText); ?></td>
 				</tr>
-			<?php } ?>
+			<?php } 
+            
+            if ($resource->firstAuthor){ ?>
+				<tr>
+				<td style='vertical-align:top;width:115px;'>First author:</td>
+				<td style='width:345px;'><?php echo $resource->firstAuthor; ?></td>
+				</tr>
+			<?php } 
+
+            if ($resource->dateFirstIssueOnline){ ?>
+				<tr>
+				<td style='vertical-align:top;width:115px;'>Date of first issue available online:</td>
+				<td style='width:345px;'><?php echo $resource->dateFirstIssueOnline; ?></td>
+				</tr>
+			<?php } 
+            if ($resource->numFirstVolOnline){ ?>
+				<tr>
+				<td style='vertical-align:top;width:115px;'>Number of first volume available online:</td>
+				<td style='width:345px;'><?php echo $resource->numFirstVolOnline; ?></td>
+				</tr>
+			<?php } 
+            if ($resource->numFirstIssueOnline){ ?>
+				<tr>
+				<td style='vertical-align:top;width:115px;'>Number of first issue available online:</td>
+				<td style='width:345px;'><?php echo $resource->numFirstIssueOnline; ?></td>
+				</tr>
+			<?php } 
+            if ($resource->dateLastIssueOnline){ ?>
+				<tr>
+				<td style='vertical-align:top;width:115px;'>Date of last issue available online:</td>
+				<td style='width:345px;'><?php echo $resource->dateLastIssueOnline; ?></td>
+				</tr>
+			<?php } 
+             if ($resource->numLastVolOnline){ ?>
+				<tr>
+				<td style='vertical-align:top;width:115px;'>Number of last volume available online:</td>
+				<td style='width:345px;'><?php echo $resource->numLastVolOnline; ?></td>
+				</tr>
+			<?php } 
+             if ($resource->numLastIssueOnline){ ?>
+				<tr>
+				<td style='vertical-align:top;width:115px;'>Number of last issue available online:</td>
+				<td style='width:345px;'><?php echo $resource->numLastIssueOnline; ?></td>
+				</tr>
+			<?php } 
+              if ($resource->embargoInfo){ ?>
+				<tr>
+				<td style='vertical-align:top;width:115px;'>Embargo Info:</td>
+				<td style='width:345px;'><?php echo $resource->embargoInfo; ?></td>
+				</tr>
+			<?php } 
+              if ($resource->coverageDepth){ ?>
+				<tr>
+				<td style='vertical-align:top;width:115px;'>Coverage Depth:</td>
+				<td style='width:345px;'><?php echo $resource->coverageDepth; ?></td>
+				</tr>
+			<?php } 
+ 
+            ?>
 
 
 		</table>
