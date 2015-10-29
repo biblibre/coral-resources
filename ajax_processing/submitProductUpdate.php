@@ -7,9 +7,12 @@
 		$resource->updateLoginID 		= $loginID;
 		$resource->updateDate			= date( 'Y-m-d H:i:s' );
 
-        foreach(array('titleText', 'descriptionText', 'resourceFormatID', 'resourceTypeID', 'resourceURL', 'resourceAltURL', 'dateFirstIssueOnline', 'numFirstVolOnline', 'numFirstIssueOnline', 'dateLastIssueOnline', 'numLastVolOnline', 'numLastIssueOnline', 'firstAuthor', 'embargoInfo', 'coverageDepth') as $field) {
+        foreach(array('titleText', 'descriptionText', 'resourceFormatID', 'resourceTypeID', 'resourceURL', 'resourceAltURL', 'numFirstVolOnline', 'numFirstIssueOnline', 'numLastVolOnline', 'numLastIssueOnline', 'firstAuthor', 'embargoInfo', 'coverageDepth') as $field) {
             $resource->$field = $_POST["$field"];
         }
+
+        $resource->dateFirstIssueOnline = $_POST['dateFirstIssueOnline'] ? date("Y-m-d", strtotime($_POST['dateFirstIssueOnline'])) : 'null';
+        $resource->dateLastIssueOnline = $_POST['dateLastIssueOnline'] ? date("Y-m-d", strtotime($_POST['dateLastIssueOnline'])) : 'null';
 
     $isbnarray = json_decode($_POST['isbnOrISSN']);
     $resource->setIsbnOrIssn($isbnarray);

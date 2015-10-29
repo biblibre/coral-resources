@@ -431,7 +431,10 @@ $parentResourceObj = new Resource(new NamedArguments(array('primaryKey' => $pare
                 <td colspan="3"><b>First online availabilty:</b></td>
                 </tr>
                 <tr>
-                <td><label for="dateFirstIssueOnline">Date of first issue</label><input type="text" id="dateFirstIssueOnline" value = "<?php echo $resource->dateFirstIssueOnline; ?>" /></td>
+                <td>
+                  <label for="dateFirstIssueOnline">Date of first issue</label>
+                  <input type="text" class="date-pick" id="dateFirstIssueOnline" value = "<?php echo normalize_date($resource->dateFirstIssueOnline); ?>" />
+                </td>
                 <td><label for="numFirstVolOnline">Number of first volume</label><input type="text" id="numFirstVolOnline" value = "<?php echo $resource->numFirstVolOnline; ?>" /></td>
                 <td><label for="numFistIssueOnline">Number of first issue</label><input type="text" id="numFirstIssueOnline" value = "<?php echo $resource->numFirstIssueOnline; ?>" /></td>
                 </tr>
@@ -439,7 +442,10 @@ $parentResourceObj = new Resource(new NamedArguments(array('primaryKey' => $pare
                 <td colspan="3"><b>Last online availabilty:</b></td>
                 </tr>
                 <tr>
-                <td><label for="dateLastIssueOnline">Date of last issue</label><input type="text" id="dateLastIssueOnline" value = "<?php echo $resource->dateLastIssueOnline; ?>" /></td>
+                <td>
+                  <label for="dateLastIssueOnline">Date of last issue</label>
+                  <input type="text" class="date-pick" id="dateLastIssueOnline" value = "<?php echo normalize_date($resource->dateLastIssueOnline); ?>" />
+                </td>
                 <td><label for="numLastVolOnline">Number of last volume</label><input type="text" id="numLastVolOnline" value = "<?php echo $resource->numLastVolOnline; ?>" /></td>
                 <td><label for="numLastIssueOnline">Number of last issue</label><input type="text" id="numLastIssueOnline" value = "<?php echo $resource->numLastIssueOnline; ?>" /></td>
                 </tr>
