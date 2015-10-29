@@ -23,7 +23,24 @@ $pageTitle='Resources import';
 include 'templates/header.php';
 ?><div id="importPage"><h1>CSV File import</h1><?php
 // CSV configuration
-$required_columns = array('titleText' => 0, 'resourceURL' => 0, 'resourceAltURL' => 0, 'parentResource' => 0, 'organization' => 0, 'role' => 0, 'title_id' => 0);
+$required_columns = array('titleText' => 0, 
+    'resourceURL' => 0, 
+    'resourceAltURL' => 0, 
+    'parentResource' => 0, 
+    'organization' => 0, 
+    'role' => 0, 
+    'title_id' => 0, 
+    'dateFirstIssueOnline' => 0, 
+    'numFirstVolOnline' => 0,
+    'numFirstIssueOnline' => 0,
+    'dateLastIssueOnline' => 0,
+    'numLastVolOnline' => 0,
+    'numLastIssueOnline' => 0,
+    'firstAuthor' => 0,
+    'embargoInfo' => 0,
+    'coverageDepth' => 0, 
+    'coverageText' => 0);
+
 if ($_POST['submit']) {
   $delimiter = $_POST['delimiter'];
   if ($delimiter == "TAB") $delimiter = "\t";
@@ -58,7 +75,7 @@ if ($_POST['submit']) {
       print '<option value=""></option>';
       foreach ($available_columns as $akey => $avalue) {
         print "<option value=\"$avalue\"";
-        if ($rkey == $akey) print ' selected="selected"';
+        if (tryToMatch($akey, $rkey)) print ' selected="selected"';
         print ">$akey</option>";
       } 
       print '</select><br />';
@@ -113,12 +130,12 @@ if ($_POST['submit']) {
           $resource->createDate       = date( 'Y-m-d' );
           $resource->updateLoginID    = '';
           $resource->updateDate       = '';
-          $resource->titleText        = $data[$_POST['titleText']];
-          $resource->resourceURL      = $data[$_POST['resourceURL']];
-          $resource->resourceAltURL   = $data[$_POST['resourceAltURL']];
-          $resource->providerText     = $data[$_POST['providerText']];
           $resource->statusID         = 1;
-          $resource->title_id         = $data[$_POST['title_id']];
+
+          foreach(array('titleText', 'descriptionText', 'resourceURL', 'resourceAltURL', 'numFirstVolOnline', 'numFirstIssueOnline', 'numLastVolOnline', 'numLastIssueOnline', 'firstAuthor', 'embargoInfo', 'coverageDepth', 'providerText', 'coverageText', 'title_id') as $field) {
+            $resource->$field = $data[$_POST["$field"]];
+          }
+
           $resource->save();
           $resource->setIsbnOrIssn($deduping_values);
           $inserted++;
@@ -297,4 +314,30 @@ if ($_POST['submit']) {
 <?php
 //print footer
 include 'templates/footer.php';
+
+  function tryToMatch($csv, $coral) {
+    return ($csv == $coral || camelize($csv) == $coral || kbartMatching($csv) == $coral); 
+  }
+
+  function camelize($scored) {
+    return lcfirst(
+      implode(
+        '',
+        array_map(
+          'ucfirst',
+          array_map(
+            'strtolower',
+            explode(
+              '_', $scored)))));
+  }
+
+  function kbartMatching($csv) {
+    $kbartMatching = array('publication_title' => 'titleText',
+    'title_url' => 'resourceURL',
+    'publisher_name' => 'organization',
+    'print_identifier' => 'isbnOrIssn',
+    'online_identifier' => 'isbnOrIssn', 
+    'coverage_notes' => 'coverageText');
+    return ($kbartMatching[$csv]);
+  }
 ?>
