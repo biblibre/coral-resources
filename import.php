@@ -136,6 +136,10 @@ if ($_POST['submit']) {
             $resource->$field = $data[$_POST["$field"]];
           }
 
+          // TODO: Date handling has to be fixed.
+          $resource->dateFirstIssueOnline = $data[$_POST['dateFirstIssueOnline']] ? $data[$_POST['dateFirstIssueOnline']] . "-1-1" : null;
+          $resource->dateLastIssueOnline = $data[$_POST['dateLastIssueOnline']] ? $data[$_POST['dateLastIssueOnline']] . "-1-1" : null;
+
           $resource->save();
           $resource->setIsbnOrIssn($deduping_values);
           $inserted++;
@@ -340,4 +344,5 @@ include 'templates/footer.php';
     'coverage_notes' => 'coverageText');
     return ($kbartMatching[$csv]);
   }
+
 ?>
