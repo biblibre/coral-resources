@@ -16,12 +16,15 @@
 **
 **************************************************************************************************************************
 */
-session_start();
-include_once 'directory.php';
-//print header
-$pageTitle='Resources import';
-include 'templates/header.php';
-?><div id="importPage"><h1>CSV File import</h1><?php
+
+$cli = false;
+$longopts = array(
+    "delimiter::",
+    "parent::",
+    "parentcolumn::",
+    "file:",
+);
+
 // CSV configuration
 $required_columns = array('titleText' => 0, 
     'resourceURL' => 0, 
@@ -41,6 +44,52 @@ $required_columns = array('titleText' => 0,
     'coverageDepth' => 0, 
     'coverageText' => 0);
 
+
+$options = getopt("", $longopts);
+if ($options) {
+  error_reporting(E_ERROR);
+  include_once 'directory.php';
+  $config = new Configuration();
+  $cli = true;
+  $uploadfile = $options['file'];
+  echo "file: $uploadfile\n";
+  $delimiter = array_key_exists('delimiter', $options) ? $options['delimiter'] : "\t";
+  echo "delimiter: $delimiter\n";
+  if (($handle = fopen($uploadfile, "r")) !== FALSE) {
+    if (($data = fgetcsv($handle, 0, $delimiter)) !== FALSE) {
+      foreach ($data as $key => $value) {
+        $available_columns[$key] = $value;
+        foreach ($required_columns as $rkey => $rvalue) {
+          if (tryToMatch($value, $rkey)) {
+            $_POST[$rkey] = $key;
+            echo "Matched $value => $rkey (column $key)\n";
+          }
+        }
+      }
+    }
+  }
+  if (array_key_exists('parent', $options)) {
+    $_POST['genericParent'] = $options['parent'];
+    echo "Generic parent resource: " . $options['parent'] . "\n";
+  }
+  if (array_key_exists('parentcolumn', $options)) {
+    $_POST['parentResource'] = array_search($options['parentcolumn'], $available_columns);
+    echo "Parent resource column: " . $options['parentcolumn'] . " (column " .array_search($options['parentcolumn'], $available_columns) . ")\n";
+  }
+
+  $deduping_config = explode(',', $config->settings->importISBNDedupingColumns); 
+}
+
+if (!$cli) {
+session_start();
+include_once 'directory.php';
+//print header
+$pageTitle='Resources import';
+include 'templates/header.php';
+
+
+?>
+<div id="importPage"><h1>CSV File import</h1><?php
 if ($_POST['submit']) {
   $delimiter = $_POST['delimiter'];
   if ($delimiter == "TAB") $delimiter = "\t";
@@ -86,11 +135,17 @@ if ($_POST['submit']) {
     print "<input type=\"hidden\" name=\"uploadfile\" value=\"$uploadfile\" />";
     print "<input type=\"submit\" name=\"matchsubmit\" id=\"matchsubmit\" /></form>";
   }
+}
+} else {
+
+}
 // Process
-} elseif ($_POST['matchsubmit']) {
+if ($_POST['matchsubmit']) {
   $delimiter = $_POST['delimiter'];
   $deduping_config = explode(',', $config->settings->importISBNDedupingColumns); 
   $uploadfile = $_POST['uploadfile'];
+}
+if ($cli || $_POST['matchsubmit']) {
    // Let's analyze this file
   if (($handle = fopen($uploadfile, "r")) !== FALSE) {
     $row = 0;
@@ -131,9 +186,22 @@ if ($_POST['submit']) {
           $resource->updateLoginID    = '';
           $resource->updateDate       = '';
           $resource->statusID         = 1;
-
+          if ($cli) echo "=> Importing " . $data[$_POST['titleText']] . "\n";
           foreach(array('titleText', 'descriptionText', 'resourceURL', 'resourceAltURL', 'numFirstVolOnline', 'numFirstIssueOnline', 'numLastVolOnline', 'numLastIssueOnline', 'firstAuthor', 'embargoInfo', 'coverageDepth', 'providerText', 'coverageText', 'title_id') as $field) {
-            $resource->$field = $data[$_POST["$field"]];
+            $value = $data[$_POST[$field]];
+            if ($value != '') { 
+/*
+              $encoding = mb_detect_encoding($value);
+              $encoding = detectUTF8($value);
+              if ($encoding) {
+*/
+                $resource->$field = $value;
+/*
+              } else {
+                if ($cli) echo "Warning: non-utf8 data ignored ($encoding $value)";
+              }
+*/
+            }
           }
 
           // TODO: Date handling has to be fixed.
@@ -342,7 +410,23 @@ include 'templates/footer.php';
     'print_identifier' => 'isbnOrIssn',
     'online_identifier' => 'isbnOrIssn', 
     'coverage_notes' => 'coverageText');
-    return ($kbartMatching[$csv]);
+    return (array_key_exists($csv, $kbartMatching) ? $kbartMatching[$csv] : null);
   }
 
+  function extractColumns($line) {
+
+  }
+
+function detectUTF8($string)
+{
+        return preg_match('%(?:
+        [\xC2-\xDF][\x80-\xBF]        # non-overlong 2-byte
+        |\xE0[\xA0-\xBF][\x80-\xBF]               # excluding overlongs
+        |[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2}      # straight 3-byte
+        |\xED[\x80-\x9F][\x80-\xBF]               # excluding surrogates
+        |\xF0[\x90-\xBF][\x80-\xBF]{2}    # planes 1-3
+        |[\xF1-\xF3][\x80-\xBF]{3}                  # planes 4-15
+        |\xF4[\x80-\x8F][\x80-\xBF]{2}    # plane 16
+        )+%xs', $string);
+}
 ?>
