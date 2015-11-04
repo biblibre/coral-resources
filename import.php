@@ -20,6 +20,7 @@
 $cli = false;
 $longopts = array(
     "delimiter::",
+    "encode",
     "parent::",
     "parentcolumn::",
     "file:",
@@ -51,6 +52,7 @@ if ($options) {
   include_once 'directory.php';
   $config = new Configuration();
   $cli = true;
+  $encode = array_key_exists('encode', $options);
   $uploadfile = $options['file'];
   echo "file: $uploadfile\n";
   $delimiter = array_key_exists('delimiter', $options) ? $options['delimiter'] : "\t";
@@ -178,7 +180,8 @@ if ($cli || $_POST['matchsubmit']) {
         $deduping_count = count($resourceObj->getResourceByIsbnOrISSN($deduping_values));
         if ($deduping_count == 0) {
           // Convert to UTF-8
-          $data = array_map(function($row) { return mb_convert_encoding($row, 'UTF-8'); }, $data);
+          if (($cli && $encode) || $_POST['matchsubmit']) 
+              $data = array_map(function($row) { return mb_convert_encoding($row, 'UTF-8'); }, $data);
         
           // Let's insert data
           $resource->createLoginID    = $loginID;
