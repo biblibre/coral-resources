@@ -25,6 +25,8 @@
 			//get children resources
 			$childResourceArray = array();
 			foreach ($resource->getChildResources() as $instance) {
+                if ($instance->resourceID) {
+
 				foreach (array_keys($instance->attributeNames) as $attributeName) {
 					$sanitizedInstance[$attributeName] = $instance->$attributeName;
 				}
@@ -32,6 +34,7 @@
 				$sanitizedInstance[$instance->primaryKeyName] = $instance->primaryKey;
 
 				array_push($childResourceArray, $sanitizedInstance);
+                }
 			}
 
 
