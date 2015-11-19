@@ -10,34 +10,42 @@
 			$updateUser = new User(new NamedArguments(array('primaryKey' => $resource->updateLoginID)));
 			$archiveUser = new User(new NamedArguments(array('primaryKey' => $resource->archiveLoginID)));
 
-      //get parents resources
-      $sanitizedInstance = array();
-      $instance = new Resource();
-      $parentResourceArray = array();
-      foreach ($resource->getParentResources() as $instance) {
-        foreach (array_keys($instance->attributeNames) as $attributeName) {
-          $sanitizedInstance[$attributeName] = $instance->$attributeName;
-        }
-        $sanitizedInstance[$instance->primaryKeyName] = $instance->primaryKey;
-        array_push($parentResourceArray, $sanitizedInstance);
-      }
+            $childResourcesCount = $resource->getChildResourcesCount();
+            $parentResourcesCount = $resource->getParentResourcesCount();
+            $childrenPages = ceil($childResourcesCount / 100);
+            $parentPages = ceil($parentResourcesCount / 100);
 
-			//get children resources
-			$childResourceArray = array();
-			foreach ($resource->getChildResources() as $instance) {
-                if ($instance->resourceID) {
+?>
+<script>
+$(document).ready(function() {
+<?php if ($childResourcesCount) { ?>
+    $("#childResourcesPager").bootpag({
+        total:<?php echo $childrenPages ?>, 
+        maxVisible:3, 
+        leaps:true, 
+        firstLastUse: true,
+        page:1}).on("page", function(event, num) {
+        getChildResources(num);
+    });
+    getChildResources(1);
 
-				foreach (array_keys($instance->attributeNames) as $attributeName) {
-					$sanitizedInstance[$attributeName] = $instance->$attributeName;
-				}
+<?php }
+if ($parentResourcesCount) { ?>
 
-				$sanitizedInstance[$instance->primaryKeyName] = $instance->primaryKey;
+    $("#parentResourcesPager").bootpag({
+        total:<?php echo $parentPages ?>, 
+        maxVisible:3, 
+        leaps:true, 
+        firstLastUse: true,
+        page:1}).on("page", function(event, num) {
+        getParentResources(num);
+    });
+    getParentResources(1);
+<?php } ?>
 
-				array_push($childResourceArray, $sanitizedInstance);
-                }
-			}
-
-
+});
+</script>
+<?php
 			//get aliases
 			$sanitizedInstance = array();
 			$instance = new Alias();
@@ -159,41 +167,27 @@
 
 			<?php
 			}
+            ?>
 
 
 
 
-      if ((count($parentResourceArray) > 0) || (count($childResourceArray) > 0)){ ?>
 				<tr>
 				<td style='vertical-align:top;width:115px;'>Related Products:
 				</td>
 				<td style='width:345px;'>
-				<?php
-
-        if (count($parentResourceArray) > 0) {
-           foreach ($parentResourceArray as $parentResource){
-              $parentResourceObj = new Resource(new NamedArguments(array('primaryKey' => $parentResource['relatedResourceID'])));
-            echo $parentResourceObj->titleText . "&nbsp;&nbsp;(Parent)&nbsp;&nbsp;<a href='resource.php?resourceID=" . $parentResourceObj->resourceID . "' target='_BLANK'><img src='images/arrow-up-right.gif' alt='view resource' title='View " . $parentResourceObj->titleText . "' style='vertical-align:top;'></a><br />";
-            }
-         }
-
-				if (count($childResourceArray) > 0) { ?>
-					<?php
-					foreach ($childResourceArray as $childResource){
-						$childResourceObj = new Resource(new NamedArguments(array('primaryKey' => $childResource['resourceID'])));
-            echo $childResourceObj->titleText . "<a href='resource.php?resourceID=" . $childResourceObj->resourceID . "' target='_BLANK'><img src='images/arrow-up-right.gif' alt='view resource' title='View " . $childResourceObj->titleText . "' style='vertical-align:top;'></a><br />";
-
-					}
-
-
-					?>
-					</td>
-				</tr>
-
-			<?php
-				}
-			}
-
+                    <?php if ($parentResourcesCount) { echo $parentResourcesCount; ?>
+                    parent resources: <br />
+                    <div id="parentResourcesPager" />
+                    <div id="parentResources">loading...</div>
+                    <?php } 
+                    if ($childResourcesCount) { echo $childResourcesCount; ?>
+                    child resources: <br />
+                    <div id="childResourcesPager" />
+                    <div id="childResources">loading...</div>
+                    <?php } ?>
+                </td></tr>
+<?php
       if ($isbnOrIssns = $resource->getIsbnOrIssn()) {
 			?>
 			<tr>

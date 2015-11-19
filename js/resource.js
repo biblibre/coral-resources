@@ -132,6 +132,31 @@ function updateProduct(){
 
 }
 
+function getChildResources(num){
+  $.ajax({
+	 type:       "GET",
+	 url:        "ajax_htmldata.php",
+	 cache:      false,
+	 data:       "action=getRelatedResources&type=children&resourceID=" + $("#resourceID").val() + "&limit=100&offset=" + eval((num - 1) * 100),
+	 success:    function(html) {
+        $("#childResources").html(html);
+	 }
+  });
+}
+
+function getParentResources(num){
+  $.ajax({
+	 type:       "GET",
+	 url:        "ajax_htmldata.php",
+	 cache:      false,
+	 data:       "action=getRelatedResources&type=parents&resourceID=" + $("#resourceID").val() + "&limit=100&offset=" + eval((num - 1) * 100),
+	 success:    function(html) {
+        $("#parentResources").html(html);
+	 }
+  });
+}
+
+
 
 
 function updateAcquisitions(){

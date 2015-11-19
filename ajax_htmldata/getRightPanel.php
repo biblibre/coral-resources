@@ -3,12 +3,12 @@
 	$resource = new Resource(new NamedArguments(array('primaryKey' => $resourceID)));
 
 		$config=new Configuration();
-
+/*
     //get parents resources
     $sanitizedInstance = array();
     $instance = new Resource();
     $parentResourceArray = array();
-    foreach ($resource->getParentResources() as $instance) {
+    foreach ($resource->getParentResources(0, 10) as $instance) {
       foreach (array_keys($instance->attributeNames) as $attributeName) {
         $sanitizedInstance[$attributeName] = $instance->$attributeName;
       }
@@ -19,7 +19,7 @@
 
 		//get children resources
 		$childResourceArray = array();
-		foreach ($resource->getChildResources() as $instance) {
+		foreach ($resource->getChildResources(0, 10) as $instance) {
             if ($instance->resourceID) {
 			foreach (array_keys($instance->attributeNames) as $attributeName) {
 				$sanitizedInstance[$attributeName] = $instance->$attributeName;
@@ -30,7 +30,7 @@
 			array_push($childResourceArray, $sanitizedInstance);
             }
 		}
-
+*/
 
 		//get organizations (already returned in an array)
 		$orgArray = $resource->getDistinctOrganizationArray();
@@ -44,7 +44,7 @@
 			echo "<div class='rightPanelLink'><a href='" . $config->settings->catalogURL . $resource->systemNumber . "' target='_blank'>Catalog View</a></div>";
 		}
 		echo "</div>";
-
+/*
     if ((count($parentResourceArray) > 0) || (count($childResourceArray) > 0)){ ?>
 			<div style='background-color:white; width:219px; padding:7px;'>
 				<?php
@@ -70,7 +70,7 @@
 
 		<?php
 		}
-
+*/
 		if ((count($orgArray) > 0) && ($config->settings->organizationsModule == 'Y')){
 
 		?>

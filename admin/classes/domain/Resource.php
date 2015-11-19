@@ -143,25 +143,46 @@ class Resource extends DatabaseObject {
 
   }
 
+    public function getParentResourcesCount() {
+        return $this->getRelatedResourcesCount('resourceID');
+    }
+
+
+    public function getChildResourcesCount() {
+        return $this->getRelatedResourcesCount('relatedResourceID');
+    }
+
+    public function getRelatedResourcesCount($key) {
+        $query = "SELECT COUNT(*) AS count
+			FROM ResourceRelationship
+			WHERE $key = '" . $this->resourceID . "'
+			AND relationshipTypeID = '1'";
+		$result = $this->db->processQuery($query, 'assoc');
+        return $result['count'];
+    }
+
 	//returns array of parent resource objects
-	public function getParentResources(){
-    return $this->getRelatedResources('resourceID');
+	public function getParentResources($offset = null, $limit = null){
+    return $this->getRelatedResources('resourceID', $offset, $limit);
 	}
 
 
 	//returns array of child resource objects
-	public function getChildResources(){
-    return $this->getRelatedResources('relatedResourceID');
+	public function getChildResources($offset = null, $limit = null){
+    return $this->getRelatedResources('relatedResourceID', $offset, $limit);
 	}
 
   // return array of related resource objects
-  private function getRelatedResources($key) {
+  public function getRelatedResources($key, $offset = null, $limit = null) {
 
     $query = "SELECT *
 			FROM ResourceRelationship
 			WHERE $key = '" . $this->resourceID . "'
 			AND relationshipTypeID = '1'
 			ORDER BY 1";
+    if ($limit != null) $query .= " LIMIT $limit";
+    if ($offset != null) $query .= " OFFSET $offset";
+
 
 		$result = $this->db->processQuery($query, 'assoc');
 
