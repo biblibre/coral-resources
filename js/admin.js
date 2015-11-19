@@ -46,7 +46,7 @@ $(document).ready(function(){
     });
 
 
-    $('.removeData').live('click', function () {
+    $(document).on('click', '.removeData', function () {
         deleteData($(this).attr("cn"), $(this).attr("id"));
     });
 

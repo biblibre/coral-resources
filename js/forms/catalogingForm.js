@@ -37,13 +37,13 @@ function kill(){
 }
 
 //the following are all to change the look of the inputs when they're clicked
-$('.changeDefaultWhite').live('focus', function(e) {
+$(document).on('focus', '.changeDefaultWhite', function(e) {
 	if (this.value == this.defaultValue){
 		this.value = '';
 	}
 });
 
- $('.changeDefaultWhite').live('blur', function() {
+ $(document).on('blur', '.changeDefaultWhite', function() {
 	if(this.value == ''){
 		this.value = this.defaultValue;
 	}		
@@ -52,7 +52,7 @@ $('.changeDefaultWhite').live('focus', function(e) {
 
   	$('.changeInput').addClass("idleField");
   	
-$('.changeInput').live('focus', function() {
+$(document).on('focus', '.changeInput', function() {
 
 
 	$(this).removeClass("idleField").addClass("focusField");
@@ -64,12 +64,12 @@ $('.changeInput').live('focus', function() {
  });
 
 
- $('.changeInput').live('blur', function() {
+ $(document).on('blur', '.changeInput', function() {
 	$(this).removeClass("focusField").addClass("idleField");
  });
 
 
-$('.changeAutocomplete').live('focus', function() {
+$(document).on('focus', '.changeAutocomplete', function() {
 	if (this.value == this.defaultValue){
 		this.value = '';
 	}
@@ -77,7 +77,7 @@ $('.changeAutocomplete').live('focus', function() {
  });
 
 
- $('.changeAutocomplete').live('blur', function() {
+ $(document).on('blur', '.changeAutocomplete', function() {
 	if(this.value == ''){
 		this.value = this.defaultValue;
 	}	
@@ -87,12 +87,12 @@ $('.changeAutocomplete').live('focus', function() {
 
 
 $('select').addClass("idleField");
-$('select').live('focus', function() {
+$(document).on('focus', 'select', function() {
 	$(this).removeClass("idleField").addClass("focusField");
 
 });
 
-$('select').live('blur', function() {
+$(document).on('blur', 'select', function() {
 	$(this).removeClass("focusField").addClass("idleField");
 });
 

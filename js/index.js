@@ -72,7 +72,7 @@ $(document).ready(function(){
 
 
 	//for performing excel output
-	$("#export").live('click', function () {
+	$(document).on('click', "#export", function () {
 		window.open('export.php');
 		return false;
 	});
@@ -84,13 +84,13 @@ $(document).ready(function(){
 	
 	
 	//bind change event to Records Per Page drop down
-	$("#numberRecordsPerPage").live('change', function () {
+	$(document).on('change', "#numberRecordsPerPage", function () {
 	  setNumberOfRecords($(this).val())
 	});
                    
 
 	//bind change event to each of the page start
-	$(".setPage").live('click', function () {
+	$(document).on('click', '.setPage', function () {
 		setPageStart($(this).attr('id'));
 	});
 	

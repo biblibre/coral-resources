@@ -118,13 +118,13 @@
 
 
 	//the following are all to change the look of the inputs when they're clicked
-	$('.changeDefault').live('focus', function(e) {
+	$(document).on('focus', '.changeDefault', function(e) {
 		if (this.value == this.defaultValue){
 			this.value = '';
 		}
 	});
 
-	 $('.changeDefault').live('blur', function() {
+	 $(document).on('blur', '.changeDefault', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
 		}		
@@ -133,7 +133,7 @@
 	
     	$('.changeInput').addClass("idleField");
     	
-	$('.changeInput').live('focus', function() {
+	$(document).on('focus', '.changeInput', function() {
 
 
 		$(this).removeClass("idleField").addClass("focusField");
@@ -145,7 +145,7 @@
 	 });
 
 
-	 $('.changeInput').live('blur', function() {
+	 $(document).on('blur', '.changeInput', function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	 });
 
@@ -153,17 +153,17 @@
 
 
 	$('select').addClass("idleField");
-	$('select').live('focus', function() {
+	$(document).on('focus', 'select', function() {
 		$(this).removeClass("idleField").addClass("focusField");
 
 	});
 
-	$('select').live('blur', function() {
+	$(document).on('blur', 'select', function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	});
 
 
-	$('.changeAutocomplete').live('focus', function() {
+	$(document).on('focus', '.changeAutocomplete', function() {
 		if (this.value == this.defaultValue){
 			this.value = '';
 		}
@@ -171,7 +171,7 @@
 	 });
 
 
-	 $('.changeAutocomplete').live('blur', function() {
+	 $(document).on('blur', '.changeAutocomplete', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
 		}	
@@ -190,7 +190,7 @@
 	});
 
 
-  $(".removeParent").live('click', function () {
+  $(document).on('click', '.removeParent', function () {
 	    $(this).parent().fadeTo(400, 0, function () { 
 		$(this).parent().remove();
 	    });
@@ -199,7 +199,7 @@
 
 
 
-	$(".remove").live('click', function () {
+	$(document).on('click', '.remove', function () {
 	    $(this).parent().parent().parent().fadeTo(400, 0, function () { 
 		$(this).remove();
 	    });
@@ -208,7 +208,7 @@
 
 
 
-	$(".addAlias").live('click', function () {
+	$(document).on('click', '.addAlias', function () {
 
 		var typeID = $('.newAliasTable').children().children().children().children('.aliasTypeID').val();
 		var aName = $('.newAliasTable').children().children().children().children('.aliasName').val();
@@ -254,7 +254,7 @@
 	});
 
   
-  $(".addIsbn").live('click', function() {
+  $(document).on('click', '.addIsbn', function() {
     var newIsbn = $('.isbnOrISSN_new').clone();
     newIsbn.removeClass('isbnOrISSN_new');
     newIsbn.appendTo('#existingIsbn');
@@ -264,7 +264,7 @@
 
   });
 
-  $(".addParent").live('click', function() {
+  $(document).on('click', '.addParent', function() {
 
     var parentID = $("#newParent .oneParent input[name='parentResourceID']'").val();
     var parentName = $("#newParent .oneParent input[name='parentResourceName']'").val();
@@ -291,7 +291,7 @@
   });
 
 
-	$(".addOrganization").live('click', function () {
+	$(document).on('click', '.addOrganization', function () {
 
 		var typeID = $('.newOrganizationTable').children().children().children().children('.organizationRoleID').val();
 		var orgID = $('.newOrganizationTable').children().children().children().children('.organizationID').val();
@@ -494,7 +494,7 @@ function submitProductForm(){
 }
 
 
-//kill all binds done by jquery live
+//kill all binds done by jquery on
 function kill(){
 
 	$('.addAlias').die('click'); 

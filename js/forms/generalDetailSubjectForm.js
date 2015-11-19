@@ -34,13 +34,13 @@ $(document).ready(function(){
 
 
 	//the following are all to change the look of the inputs when they're clicked
-	$('.changeDefault').live('focus', function(e) {
+	$(document).on('focus', '.changeDefault', function(e) {
 		if (this.value == this.defaultValue){
 			this.value = '';
 		}
 	});
 
-	 $('.changeDefault').live('blur', function() {
+	 $(document).on('blur', '.changeDefault', function() {
 		if(this.value == ''){
 			this.value = this.defaultValue;
 		}		
@@ -49,7 +49,7 @@ $(document).ready(function(){
 	
     	$('.changeInput').addClass("idleField");
     	
-	$('.changeInput').live('focus', function() {
+	$(document).on('focus', '.changeInput', function() {
 
 
 		$(this).removeClass("idleField").addClass("focusField");
@@ -61,7 +61,7 @@ $(document).ready(function(){
 	 });
 
 
-	 $('.changeInput').live('blur', function() {
+	 $(document).on('blur', '.changeInput', function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	 });
 
@@ -69,17 +69,17 @@ $(document).ready(function(){
 
 
 	$('select').addClass("idleField");
-	$('select').live('focus', function() {
+	$(document).on('focus', 'select', function() {
 		$(this).removeClass("idleField").addClass("focusField");
 
 	});
 
-	$('select').live('blur', function() {
+	$(document).on('blur', 'select', function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	});
 
 
-	$(".adddetailedSubject").live('click', function () {
+	$(document).on('click', ".adddetailedSubject", function () {
 
 		var detailedSubjectID = $('.newdetailedSubjectTable').children().children().children().children('.detailedSubjectID').val();
 		
@@ -158,7 +158,7 @@ $(document).ready(function(){
 
 
 
-	$(".remove").live('click', function () {
+	$(document).on('click', ".remove", function () {
 	    $(this).parent().parent().parent().fadeTo(400, 0, function () { 
 		$(this).remove();
 	    });

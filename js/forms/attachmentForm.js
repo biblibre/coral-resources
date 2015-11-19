@@ -26,7 +26,7 @@
 
     	$('.changeInput').addClass("idleField");
     	
-	$('.changeInput').live('focus', function() {
+	$(document).on('focus', '.changeInput', function() {
 
 
 		$(this).removeClass("idleField").addClass("focusField");
@@ -38,7 +38,7 @@
 	 });
 
 
-	 $('.changeInput').live('blur', function() {
+	 $(document).on('blur', '.changeInput', function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	 });
 
@@ -46,12 +46,12 @@
 
 
 	$('select').addClass("idleField");
-	$('select').live('focus', function() {
+	$(document).on('focus', 'select', function() {
 		$(this).removeClass("idleField").addClass("focusField");
 
 	});
 
-	$('select').live('blur', function() {
+	$(document).on('blur', 'select', function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	});
 

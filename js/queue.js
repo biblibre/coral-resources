@@ -25,7 +25,7 @@
 
       	 updateOutstandingTasks();
       
- 	 $('.deleteRequest').live('click', function () {
+ 	 $(document).on('click', '.deleteRequest', function () {
  		  deleteRequest($(this).attr("id"));
  	 });
 
