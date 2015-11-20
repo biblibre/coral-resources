@@ -19,102 +19,101 @@
     $('.date-pick').datePicker({startDate:'01/01/1996'});
 
 
-	//bind all of the inputs
+    //bind all of the inputs
 
-	 $("#submitProductChanges").click(function () {
-		submitProductForm();
-	 });
-
-
-	//do submit if enter is hit
-	$('#titleText').keyup(function(e) {
-	      if(e.keyCode == 13) {
-		submitProductForm();
-	      }
-	}); 
-
-	//do submit if enter is hit
-	$('#parentResourceName').keyup(function(e) {
-	      if(e.keyCode == 13) {
-		submitProductForm();
-	      }
-	}); 
+    $("#submitProductChanges").click(function () {
+        submitProductForm();
+    });
 
 
-	$('#isbnOrISSN').keyup(function(e) {
-	      if(e.keyCode == 13) {
-		submitProductForm();
-	      }
-	}); 
+    //do submit if enter is hit
+    $('#titleText').keyup(function(e) {
+        if(e.keyCode == 13) {
+            submitProductForm();
+        }
+    }); 
+
+    //do submit if enter is hit
+    $('#parentResourceName').keyup(function(e) {
+        if(e.keyCode == 13) {
+            submitProductForm();
+        }
+    }); 
 
 
-	$('#resourceFormatID').keyup(function(e) {
-	      if(e.keyCode == 13) {
-		submitProductForm();
-	      }
-	}); 	
-
-	$('#resourceTypeID').keyup(function(e) {
-	      if(e.keyCode == 13) {
-		submitProductForm();
-	      }
-	}); 
+    $('#isbnOrISSN').keyup(function(e) {
+        if(e.keyCode == 13) {
+            submitProductForm();
+        }
+    }); 
 
 
+    $('#resourceFormatID').keyup(function(e) {
+        if(e.keyCode == 13) {
+            submitProductForm();
+        }
+    }); 	
 
-	 $("input[name='parentResourceName']").autocomplete('ajax_processing.php?action=getResourceList', {
-		minChars: 2,
-		max: 20,
-		mustMatch: false,
-		width: 179,
-		delay: 10,
-		matchContains: true,
-		formatItem: function(row) {
-			return "<span style='font-size: 80%;'>" + row[0] + "</span>";
-		},
-		formatResult: function(row) {
-			return row[0].replace(/(<.+?>)/gi, '');
-		}
-
-	  });
-
-
-	//once something has been selected, change the hidden input value
-	$("input[name='parentResourceName']").result(function(event, data, formatted) {
-    inputid = $(this).next();
-  
-		if (data[1] != $("#editResourceID").val()){
-			inputid.val(data[1]);
-			$(this).next().next().html('');
-		}else{
-			$(this).next().next().html('<br />Error - Parent cannot be the same as the child');
-		}
-	});
+    $('#resourceTypeID').keyup(function(e) {
+        if(e.keyCode == 13) {
+            submitProductForm();
+        }
+    }); 
 
 
 
-	 $(".organizationName").autocomplete('ajax_processing.php?action=getOrganizationList', {
-		minChars: 2,
-		max: 20,
-		mustMatch: false,
-		width: 164,
-		delay: 10,
-		matchContains: true,
-		formatItem: function(row) {
-			return "<span style='font-size: 80%;'>" + row[0] + "</span>";
-		},
-		formatResult: function(row) {
-			return row[0].replace(/(<.+?>)/gi, '');
-		}
+    $("input[name='parentResourceName']").autocomplete('ajax_processing.php?action=getResourceList', {
+        minChars: 2,
+        max: 20,
+        mustMatch: false,
+        width: 179,
+        delay: 10,
+        matchContains: true,
+        formatItem: function(row) {
+            return "<span style='font-size: 80%;'>" + row[0] + "</span>";
+        },
+        formatResult: function(row) {
+            return row[0].replace(/(<.+?>)/gi, '');
+        }
 
-	  });
+    });
 
 
-	//once something has been selected, change the hidden input value
-	$(".organizationName").result(function(event, data, formatted) {
-		$(this).parent().children('.organizationID').val(data[1]);
-	});
+    //once something has been selected, change the hidden input value
+    $("input[name='parentResourceName']").result(function(event, data, formatted) {
+        inputid = $(this).next();
 
+        if (data[1] != $("#editResourceID").val()){
+            inputid.val(data[1]);
+            $(this).next().next().html('');
+        }else {
+            $(this).next().next().html("<br />"+_("Error - Parent cannot be the same as the child"));
+        }
+    });
+
+
+
+    $(".organizationName").autocomplete('ajax_processing.php?action=getOrganizationList', {
+        minChars: 2,
+        max: 20,
+        mustMatch: false,
+        width: 164,
+        delay: 10,
+        matchContains: true,
+        formatItem: function(row) {
+            return "<span style='font-size: 80%;'>" + row[0] + "</span>";
+        },
+        formatResult: function(row) {
+            return row[0].replace(/(<.+?>)/gi, '');
+        }
+
+    });
+
+
+    //once something has been selected, change the hidden input value
+    $(".organizationName").result(function(event, data, formatted) {
+        $(this).parent().children('.organizationID').val(data[1]);
+    });
 
 
 	//the following are all to change the look of the inputs when they're clicked
@@ -135,14 +134,13 @@
     	
 	$(document).on('focus', '.changeInput', function() {
 
+        $(this).removeClass("idleField").addClass("focusField");
 
-		$(this).removeClass("idleField").addClass("focusField");
+        if(this.value != this.defaultValue){
+            this.select();
+        }
 
-		if(this.value != this.defaultValue){
-			this.select();
-		}
-
-	 });
+    });
 
 
 	 $(document).on('blur', '.changeInput', function() {
@@ -151,12 +149,10 @@
 
 
 
-
 	$('select').addClass("idleField");
 	$(document).on('focus', 'select', function() {
 		$(this).removeClass("idleField").addClass("focusField");
-
-	});
+    });
 
 	$(document).on('blur', 'select', function() {
 		$(this).removeClass("focusField").addClass("idleField");
@@ -167,8 +163,7 @@
 		if (this.value == this.defaultValue){
 			this.value = '';
 		}
-
-	 });
+    });
 
 
 	 $(document).on('blur', '.changeAutocomplete', function() {
@@ -178,16 +173,22 @@
 	 });
 	 
 
+    $('textarea').addClass("idleField");
+    $('textarea').focus(function() {
+        $(this).removeClass("idleField").addClass("focusField");
+    });
+
+    $('textarea').blur(function() {
+        $(this).removeClass("focusField").addClass("idleField");
+    });
 
 
-	$('textarea').addClass("idleField");
-	$('textarea').focus(function() {
-		$(this).removeClass("idleField").addClass("focusField");
-	});
-	    
-	$('textarea').blur(function() {
-		$(this).removeClass("focusField").addClass("idleField");
-	});
+    $(".remove").live('click', function () {
+        $(this).parent().parent().parent().fadeTo(400, 0, function () { 
+            $(this).remove();
+        });
+        return false;
+    });
 
 
   $(document).on('click', '.removeParent', function () {
@@ -198,60 +199,55 @@
 	});
 
 
-
 	$(document).on('click', '.remove', function () {
 	    $(this).parent().parent().parent().fadeTo(400, 0, function () { 
 		$(this).remove();
 	    });
 	    return false;
 	});
-
-
-
 	$(document).on('click', '.addAlias', function () {
 
-		var typeID = $('.newAliasTable').children().children().children().children('.aliasTypeID').val();
-		var aName = $('.newAliasTable').children().children().children().children('.aliasName').val();
-						
-		if ((aName == '') || (aName == null) || (typeID == '') || (typeID == null)){
-			$('#div_errorAlias').html('Error - Both fields are required');
-			return false;
-			
-		}else{
-			$('#div_errorAlias').html('');
-			
-			//first copy the new alias being added
-			var originalTR = $('.newAliasTR').clone();
+        var typeID = $('.newAliasTable').children().children().children().children('.aliasTypeID').val();
+        var aName = $('.newAliasTable').children().children().children().children('.aliasName').val();
+        if ((aName == '') || (aName == null) || (typeID == '') || (typeID == null)){
+            $('#div_errorAlias').html(_("Error - Both fields are required"));
+            return false;
 
-			//next append to to the existing table
-			//it's too confusing to chain all of the children.
-			$('.newAliasTR').appendTo('.aliasTable');
+        }else{
+            $('#div_errorAlias').html('');
 
-			$('.newAliasTR').children().children().children('.addAlias').attr({
-			  src: 'images/cross.gif',
-			  alt: 'remove this alias',
-			  title: 'remove this alias'
-			});
-			$('.newAliasTR').children().children().children('.addAlias').addClass('remove');
-			$('.aliasTypeID').addClass('changeSelect');
-			$('.aliasTypeID').addClass('idleField');
-			$('.aliasTypeID').css("background-color","");
-			$('.aliasName').addClass('changeInput');
-			$('.aliasName').addClass('idleField');
+            //first copy the new alias being added
+            var originalTR = $('.newAliasTR').clone();
 
-			
-			$('.addAlias').removeClass('addAlias');
-			$('.newAliasTR').removeClass('newAliasTR');
 
-			//next put the original clone back, we just need to reset the values
-			originalTR.appendTo('.newAliasTable');
-			$('.newAliasTable').children().children().children().children('.aliasTypeID').val('');
-			$('.newAliasTable').children().children().children().children('.aliasName').val('');
-			
+            //next append to to the existing table
+            //it's too confusing to chain all of the children.
+            $('.newAliasTR').appendTo('.aliasTable');
+            $('.newAliasTR').children().children().children('.addAlias').attr({
+                src: 'images/cross.gif',
+                alt: _("remove this alias"),
+                title: _("remove this alias")
+            });
+            $('.newAliasTR').children().children().children('.addAlias').addClass('remove');
+            $('.aliasTypeID').addClass('changeSelect');
+            $('.aliasTypeID').addClass('idleField');
+            $('.aliasTypeID').css("background-color","");
+            $('.aliasName').addClass('changeInput');
+            $('.aliasName').addClass('idleField');
 
-			return false;
-		}
-	});
+
+            $('.addAlias').removeClass('addAlias');
+            $('.newAliasTR').removeClass('newAliasTR');
+
+            //next put the original clone back, we just need to reset the values
+            originalTR.appendTo('.newAliasTable');
+            $('.newAliasTable').children().children().children().children('.aliasTypeID').val('');
+            $('.newAliasTable').children().children().children().children('.aliasName').val('');
+
+
+            return false;
+        }
+    });
 
   
   $(document).on('click', '.addIsbn', function() {
@@ -264,17 +260,18 @@
 
   });
 
+
   $(document).on('click', '.addParent', function() {
 
     var parentID = $("#newParent .oneParent input[name='parentResourceID']'").val();
     var parentName = $("#newParent .oneParent input[name='parentResourceName']'").val();
 
     if (parentName == '') {
-      return false;
+        return false;
     }
 
     if (parentID == '' || parentID == null) {
-				$('#span_error_parentResourceName').html('Error - Parent is not found.  Please use the Autocomplete.');
+        $('#span_error_parentResourceName').html(_("Error - Parent is not found.  Please use the Autocomplete."));
         return false;
     }
 
@@ -283,7 +280,7 @@
     newParentValue.attr('disabled', 'disabled');
     var newParentStr = "<div class='oneParent'></div>";
     var newParentObj = $(newParentStr);
-    var newParentEnd = "<a href='javascript:void();'><img src='images/cross.gif' alt='remove parent' title='remove parent' class='removeParent' /></a></div>";
+    var newParentEnd = "<a href='javascript:void();'><img src='images/cross.gif' alt='"+_("remove parent")+"' title='"+_("remove parent")+"' class='removeParent' /></a></div>";
     newParentObj.append(newParentValue);
     newParentObj.append(newParentEnd);
     $('#existingParent').append(newParentObj);
@@ -373,45 +370,44 @@
 	});
 
 
- function validateForm (){
- 	myReturn=0;
- 	if (!validateRequired('titleText','<br />Name must be entered to continue.')) myReturn="1";
+function validateForm (){
+    myReturn=0;
+    if (!validateRequired('titleText',"<br />"+_("Name must be entered to continue."))) myReturn="1";
 
 
-	//for verifying org and aliases
-	var typeID = $('.newAliasTable').children().children().children().children('.aliasTypeID').val();
-	var aName = $('.newAliasTable').children().children().children().children('.aliasName').val();
+    //for verifying org and aliases
+    var typeID = $('.newAliasTable').children().children().children().children('.aliasTypeID').val();
+    var aName = $('.newAliasTable').children().children().children().children('.aliasName').val();
 
-	var roleID = $('.newOrganizationTable').children().children().children().children('.organizationRoleID').val();
-	var orgID = $('.newOrganizationTable').children().children().children().children('.organizationID').val();
-	var orgName = $('.newOrganizationTable').children().children().children().children('.organizationName').val();
+    var roleID = $('.newOrganizationTable').children().children().children().children('.organizationRoleID').val();
+    var orgID = $('.newOrganizationTable').children().children().children().children('.organizationID').val();
+    var orgName = $('.newOrganizationTable').children().children().children().children('.organizationName').val();
 
-	//check organizations fields
-	if (((orgID == '') || (orgID == null) || (roleID == '') || (roleID == null)) && ((roleID != '') || (orgID != ''))){
-		if ((orgName== '') || (orgName == null) || (typeID == '') || (typeID == null)){
-			$('#div_errorOrganization').html('Error - Both fields are required');
-		}else{
-			$('#div_errorOrganization').html('Error - Organization is not found.  Please use Autocomplete.');
-		}
+    //check organizations fields
+    if (((orgID == '') || (orgID == null) || (roleID == '') || (roleID == null)) && ((roleID != '') || (orgID != ''))){
+        if ((orgName== '') || (orgName == null) || (typeID == '') || (typeID == null)){
+            $('#div_errorOrganization').html(_("Error - Both fields are required"));
+        }else{
+            $('#div_errorOrganization').html(_("Error - Organization is not found.  Please use Autocomplete."));
+        }
 
-		myReturn="1";
+        myReturn="1";
 
-	}	
+    }	
 
-	//check aliases
-	if (((aName == '') || (aName == null) || (typeID == '') || (typeID == null)) && ((aName != '') || (typeID != ''))){
-		$('#div_errorAlias').html('Error - Both fields are required');
-		myReturn="1";
+    //check aliases
+    if (((aName == '') || (aName == null) || (typeID == '') || (typeID == null)) && ((aName != '') || (typeID != ''))){
+        $('#div_errorAlias').html(_("Error - Both fields are required"));
+        myReturn="1";
 
-	}
-
- 	if (myReturn == "1"){
-		return false; 	
- 	}else{
- 		return true;
- 	}
+    }
+    if (myReturn == "1"){
+        return false; 	
+    }else{
+        return true;
+    }
 }
- 
+
 
 
 
@@ -419,44 +415,44 @@
 
 function submitProductForm(){
 
-	aliasTypeList ='';
-	$(".aliasTypeID").each(function(id) {
-	      aliasTypeList += $(this).val() + ":::";
-	}); 
+    aliasTypeList ='';
+    $(".aliasTypeID").each(function(id) {
+        aliasTypeList += $(this).val() + ":::";
+    }); 
 
-	aliasNameList ='';
-	$(".aliasName").each(function(id) {
-	      aliasNameList += $(this).val() + ":::";
-	}); 
-
-
-	organizationList ='';
-	$(".organizationID").each(function(id) {
-	      organizationList += $(this).val() + ":::";
-	}); 
-
-	organizationRoleList ='';
-	$(".organizationRoleID").each(function(id) {
-	      organizationRoleList += $(this).val() + ":::";
-	}); 
+    aliasNameList ='';
+    $(".aliasName").each(function(id) {
+        aliasNameList += $(this).val() + ":::";
+    }); 
 
 
+    organizationList ='';
+    $(".organizationID").each(function(id) {
+        organizationList += $(this).val() + ":::";
+    }); 
 
-	if (validateForm() === true) {
-    var arrayisbn = Array();
-    var isbnOrIssn = '';
-    $("input[name='isbnOrISSN']").each(function() {
-        arrayisbn.push($(this).val());
-    });
-    isbnOrIssn = arrayisbn.join();
+    organizationRoleList ='';
+    $(".organizationRoleID").each(function(id) {
+        organizationRoleList += $(this).val() + ":::";
+    }); 
 
-    var arrayparents = Array();
-    var parents = '';
-    $("input[name='parentResourceID']").each(function() {
-        if ($(this).val() != null && $(this).val() != '') {
-          arrayparents.push($(this).val());
-        }
-    });
+
+
+    if (validateForm() === true) {
+        var arrayisbn = Array();
+        var isbnOrIssn = '';
+        $("input[name='isbnOrISSN']").each(function() {
+            arrayisbn.push($(this).val());
+        });
+        isbnOrIssn = arrayisbn.join();
+
+        var arrayparents = Array();
+        var parents = '';
+        $("input[name='parentResourceID']").each(function() {
+            if ($(this).val() != null && $(this).val() != '') {
+                arrayparents.push($(this).val());
+            }
+        });
 
 
 		$('#submitProductChanges').attr("disabled", "disabled");
@@ -469,27 +465,26 @@ function submitProductForm(){
 			 url:        "ajax_processing.php?action=submitProductUpdate",
 			 cache:      false,
              data: data,
+            success:    function(html) {
+                if (html){
+                    $("#span_errors").html(html);
+                    $("#submitProductChanges").removeAttr("disabled");
+                }else{
+                    kill();
+                    window.parent.tb_remove();
+                    window.parent.updateProduct();
+                    window.parent.updateRightPanel();
+                    window.parent.updateTitle();			
+                    return false;
+                }					
 
-			 success:    function(html) {
-				if (html){
-					$("#span_errors").html(html);
-					$("#submitProductChanges").removeAttr("disabled");
-				}else{
-					kill();
-					window.parent.tb_remove();
-					window.parent.updateProduct();
-					window.parent.updateRightPanel();
-					window.parent.updateTitle();			
-					return false;
-				}					
-
-			 }
+            }
 
 
-		 });
+        });
 
-	}
-				
+    }
+
 
 }
 
@@ -497,17 +492,17 @@ function submitProductForm(){
 //kill all binds done by jquery on
 function kill(){
 
-	$('.addAlias').die('click'); 
-	$('.addOrganization').die('click');
-	$('.changeDefault').die('blur');
-	$('.changeDefault').die('focus');
-	$('.changeInput').die('blur');
-	$('.changeInput').die('focus');
-	$('.changeAutocomplete').die('blur');
-	$('.changeAutocomplete').die('focus');
-	$('.select').die('blur');
-	$('.select').die('focus');
-	$('.organizationName').die('focus');
-	$('.remove').die('click');
+    $('.addAlias').die('click'); 
+    $('.addOrganization').die('click');
+    $('.changeDefault').die('blur');
+    $('.changeDefault').die('focus');
+    $('.changeInput').die('blur');
+    $('.changeInput').die('focus');
+    $('.changeAutocomplete').die('blur');
+    $('.changeAutocomplete').die('focus');
+    $('.select').die('blur');
+    $('.select').die('focus');
+    $('.organizationName').die('focus');
+    $('.remove').die('click');
 
 }

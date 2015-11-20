@@ -344,216 +344,332 @@ function deleteData(className, deleteID){
 
             }
         });
-
-    }
-}
-
-function deleteGeneralSubject(className, deleteID){
-
-    if (confirm("Do you really want to remove this data?") == true) {
-
-        $.ajax({
-            type:       "GET",
-            url:        "ajax_processing.php",
-            cache:      false,
-            data:       "action=deleteGeneralSubject&class=" + className + "&id=" + deleteID,
-            success:    function(html) { 
-
-                if (html){		  			  	
-                    showError(html);  
-
-                    // close the div in 3 secs
-                    setTimeout("emptyError();",3000); 
-                }else{
-                    updateSubjectsTable();  
-                    tb_reinit();
-                }
-
-            }
-        });
-
-    }
-}
+ }
 
 
-function deleteDetailedSubject(className, deleteID){
+ function submitUserData(){
+	$.ajax({
+          type:       "POST",
+          url:        "ajax_processing.php?action=updateUserData",
+          cache:      false,
+          data:       { orgloginID: $('#editLoginID').val(), loginID: $('#loginID').val(), firstName: $('#firstName').val(), lastName: $('#lastName').val(), emailAddress: $('#emailAddress').val(), privilegeID: $('#privilegeID').val(), accountTabIndicator: getCheckboxValue('accountTab') },
+          success:    function(html) { 
+		  updateUserTable();
+		  window.parent.tb_remove();
+          }
+       });
 
-    if (confirm("Do you really want to remove this data?") == true) {
-
-        $.ajax({
-            type:       "GET",
-            url:        "ajax_processing.php",
-            cache:      false,
-            data:       "action=deleteDetailedSubject&class=" + className + "&id=" + deleteID,
-            success:    function(html) { 
-
-                if (html){		  			  	
-                    showError(html);  
-
-                    // close the div in 3 secs
-                    setTimeout("emptyError();",3000); 
-                }else{
-                    updateSubjectsTable();  
-                    tb_reinit();
-                }
-
-            }
-        });
-
-    }
-}
+ }
 
 
-function deleteGeneralDetailSubject(className, deleteID){
-
-    if (confirm("Do you really want to remove this data?") == true) {
-
-        $.ajax({
-            type:       "GET",
-            url:        "ajax_processing.php",
-            cache:      false,
-            data:       "action=deleteInstance&class=" + className + "&id=" + deleteID,
-            success:    function(html) { 
-
-                if (html){		  			  	
-                    showError(html);  
-
-                    // close the div in 3 secs
-                    setTimeout("emptyError();",3000); 
-                }else{
-                    updateSubjectsTable();  
-                    tb_reinit();
-                }
-
-            }
-        });
-
-    }
-}
 
 
-function deleteUser(deleteId){
 
-    if (confirm("Do you really want to delete this user?") == true) {
+ function submitCurrencyData(){
+	$.ajax({
+          type:       "POST",
+          url:        "ajax_processing.php?action=updateCurrency",
+          cache:      false,
+          data:       { editCurrencyCode: $('#editCurrencyCode').val(), currencyCode: $('#currencyCode').val(), shortName: $('#shortName').val() },
+          success:    function(html) { 
+		  updateCurrencyTable();
+		  window.parent.tb_remove();
+          }
+       });
 
-        $('#span_User_response').html('<img src = "images/circle.gif">&nbsp;&nbsp;Processing...');
-        $.ajax({
-            type:       "GET",
-            url:        "ajax_processing.php",
-            cache:      false,
-            data:       "action=deleteInstance&class=User&id=" + deleteId,
-            success:    function(html) { 
-                if (html){		  			  	
-                    showError(html);  
-
-                    // close the div in 3 secs
-                    setTimeout("emptyError();",3000); 
-                }else{
-                    updateUserTable();  
-                    tb_reinit();
-                }
-            }
-        });
-
-    }
-} 
+ }
 
 
-function deleteAlert(className, deleteID){
+ function submitAdminAlertEmail(){
+	$.ajax({
+          type:       "POST",
+          url:        "ajax_processing.php?action=updateAdminAlertEmail",
+          cache:      false,
+          data:       { alertEmailAddressID: $('#editAlertEmailAddressID').val(), emailAddress: $('#emailAddress').val() },
+          success:    function(html) { 
+		  updateAlertTable();
+		  window.parent.tb_remove();
+          }
+       });
 
-    if (confirm("Do you really want to remove this alert setting?") == true) {
-
-        $.ajax({
-            type:       "GET",
-            url:        "ajax_processing.php",
-            cache:      false,
-            data:       "action=deleteInstance&class=" + className + "&id=" + deleteID,
-            success:    function(html) { 
-
-                if (html){		  			  	
-                    showError(html);  
-
-                    // close the div in 3 secs
-                    setTimeout("emptyError();",3000); 
-                }else{
-                    updateAlertTable();  
-                    tb_reinit();
-                }
-
-            }
-        });
-
-    }
-}
+ }
 
 
-function deleteWorkflow(className, deleteID){
-
-    if (confirm("Do you really want to remove this data?") == true) {
-
-        $.ajax({
-            type:       "GET",
-            url:        "ajax_processing.php",
-            cache:      false,
-            data:       "action=deleteInstance&class=" + className + "&id=" + deleteID,
-            success:    function(html) { 
-
-                if (html){		  			  	
-                    showError(html);  
-
-                    // close the div in 3 secs
-                    setTimeout("emptyError();",3000); 
-                }else{
-                    updateWorkflowTable();  
-                    tb_reinit();
-                }
-
-            }
-        });
-
-    }
-}
 
 
-function deleteCurrency(className, deleteID){
 
-    if (confirm("Do you really want to delete this currency?") == true) {
-
-        $.ajax({
-            type:       "GET",
-            url:        "ajax_processing.php",
-            cache:      false,
-            data:       "action=deleteInstance&class=" + className + "&id=" + deleteID,
-            success:    function(html) { 
-
-                if (html){		  			  	
-                    showError(html);  
-
-                    // close the div in 3 secs
-                    setTimeout("emptyError();",3000); 
-                }else{
-                    updateCurrencyTable();  
-                    tb_reinit();
-                }
-
-            }
-        });
-
-    }
-}
-
-
-function showError(html){
-
-    $('#div_error').fadeTo(0, 5000, function () { 
-        $('#div_error').html(html);
-    });
-
-}
+ function submitAdminAlertDays(){
+ 
+ 	numberOfDays = $('#daysInAdvanceNumber').val();
+ 	
+ 	if (parseInt(numberOfDays) != numberOfDays-0){
+ 		$('#div_form_error').html(_("Number of days must be a number"));
+ 		return false;
+ 	}else if ((numberOfDays < 1) || (numberOfDays > 365)){
+ 		$('#div_form_error').html(_("Number of days should be between 1 and 365"));
+ 		return false;
+ 	}else{
+ 		$('#div_form_error').html("&nbsp;");
+		$.ajax({
+		  type:       "POST",
+		  url:        "ajax_processing.php?action=updateAdminAlertDays",
+		  cache:      false,
+		  data:       { alertDaysInAdvanceID: $('#editAlertDaysInAdvanceID').val(), daysInAdvanceNumber: $('#daysInAdvanceNumber').val() },
+		  success:    function(html) { 
+			  updateAlertTable();
+			  window.parent.tb_remove();
+		  }
+	       });
+	}
+ }
 
 
-function emptyError(){
 
+ function deleteData(className, deleteID){
+ 
+ 	if (confirm(_("Do you really want to delete this data?")) == true) {
+
+	       $.ajax({
+		  type:       "GET",
+		  url:        "ajax_processing.php",
+		  cache:      false,
+		  data:       "action=deleteInstance&class=" + className + "&id=" + deleteID,
+		  success:    function(html) { 
+
+			if (html){		  			  	
+				showError(html);  
+
+				// close the div in 3 secs
+				setTimeout("emptyError();",3000); 
+			}else{
+				updateTable(className);  
+				tb_reinit();
+			}
+			
+		  }
+	      });
+
+	}
+ }
+
+   function deleteGeneralSubject(className, deleteID){
+ 
+ 	if (confirm(_("Do you really want to remove this data?")) == true) {
+	   
+	       $.ajax({
+		  type:       "GET",
+		  url:        "ajax_processing.php",
+		  cache:      false,
+		  data:       "action=deleteGeneralSubject&class=" + className + "&id=" + deleteID,
+		  success:    function(html) { 
+
+			if (html){		  			  	
+				showError(html);  
+
+				// close the div in 3 secs
+				setTimeout("emptyError();",3000); 
+			}else{
+				updateSubjectsTable();  
+				tb_reinit();
+			}
+			
+		  }
+	      });
+
+	}
+ }
+ 
+ 
+   function deleteDetailedSubject(className, deleteID){
+ 
+ 	if (confirm(_("Do you really want to remove this data?")) == true) {
+	   
+	       $.ajax({
+		  type:       "GET",
+		  url:        "ajax_processing.php",
+		  cache:      false,
+		  data:       "action=deleteDetailedSubject&class=" + className + "&id=" + deleteID,
+		  success:    function(html) { 
+
+			if (html){		  			  	
+				showError(html);  
+
+				// close the div in 3 secs
+				setTimeout("emptyError();",3000); 
+			}else{
+				updateSubjectsTable();  
+				tb_reinit();
+			}
+			
+		  }
+	      });
+
+	}
+ }
+
+ 
+  function deleteGeneralDetailSubject(className, deleteID){
+ 
+ 	if (confirm(_("Do you really want to remove this data?")) == true) {
+	   
+	       $.ajax({
+		  type:       "GET",
+		  url:        "ajax_processing.php",
+		  cache:      false,
+		  data:       "action=deleteInstance&class=" + className + "&id=" + deleteID,
+		  success:    function(html) { 
+
+			if (html){		  			  	
+				showError(html);  
+
+				// close the div in 3 secs
+				setTimeout("emptyError();",3000); 
+			}else{
+				updateSubjectsTable();  
+				tb_reinit();
+			}
+			
+		  }
+	      });
+
+	}
+ }
+ 
+ 
+
+
+ function deleteUser(deleteId){
+ 
+ 	if (confirm(_("Do you really want to delete this user?")) == true) {
+
+	       $('#span_User_response').html('<img src = "images/circle.gif">&nbsp;&nbsp;Processing...');
+	       $.ajax({
+		  type:       "GET",
+		  url:        "ajax_processing.php",
+		  cache:      false,
+		  data:       "action=deleteInstance&class=User&id=" + deleteId,
+		  success:    function(html) { 
+			if (html){		  			  	
+				showError(html);  
+
+				// close the div in 3 secs
+				setTimeout("emptyError();",3000); 
+			}else{
+				updateUserTable();  
+				tb_reinit();
+			}
+		  }
+	      });
+
+	}
+ } 
+ 
+  
+
+
+
+ function deleteAlert(className, deleteID){
+ 
+ 	if (confirm(_("Do you really want to remove this alert setting?")) == true) {
+	   
+	       $.ajax({
+		  type:       "GET",
+		  url:        "ajax_processing.php",
+		  cache:      false,
+		  data:       "action=deleteInstance&class=" + className + "&id=" + deleteID,
+		  success:    function(html) { 
+
+			if (html){		  			  	
+				showError(html);  
+
+				// close the div in 3 secs
+				setTimeout("emptyError();",3000); 
+			}else{
+				updateAlertTable();  
+				tb_reinit();
+			}
+			
+		  }
+	      });
+
+	}
+ }
+
+
+
+ function deleteWorkflow(className, deleteID){
+ 
+ 	if (confirm(_("Do you really want to remove this data?")) == true) {
+	   
+	       $.ajax({
+		  type:       "GET",
+		  url:        "ajax_processing.php",
+		  cache:      false,
+		  data:       "action=deleteInstance&class=" + className + "&id=" + deleteID,
+		  success:    function(html) { 
+
+			if (html){		  			  	
+				showError(html);  
+
+				// close the div in 3 secs
+				setTimeout("emptyError();",3000); 
+			}else{
+				updateWorkflowTable();  
+				tb_reinit();
+			}
+			
+		  }
+	      });
+
+	}
+ }
+
+
+
+
+ function deleteCurrency(className, deleteID){
+ 
+ 	if (confirm(_("Do you really want to delete this currency?")) == true) {
+
+	       $.ajax({
+		  type:       "GET",
+		  url:        "ajax_processing.php",
+		  cache:      false,
+		  data:       "action=deleteInstance&class=" + className + "&id=" + deleteID,
+		  success:    function(html) { 
+
+			if (html){		  			  	
+				showError(html);  
+
+				// close the div in 3 secs
+				setTimeout("emptyError();",3000); 
+			}else{
+				updateCurrencyTable();  
+				tb_reinit();
+			}
+			
+		  }
+	      });
+
+	}
+ }
+ 
+ 
+
+
+  
+ 
+ function showError(html){
+ 
+     $('#div_error').fadeTo(0, 5000, function () { 
+ 	$('#div_error').html(html);
+     });
+  	
+ }
+
+
+ 
+ function emptyError(){
     $('#div_error').fadeTo(500, 0, function () { 
         $('#div_error').html("");
     });

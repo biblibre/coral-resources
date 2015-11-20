@@ -35,8 +35,8 @@ class DBService extends Object {
 	}
 
 	protected function checkForError() {
-		if ($this->error = $this->db->error) {
-			throw new Exception("There was a problem with the database: " . $this->error);
+        if ($this->error = $this->db->error) {
+			throw new Exception(_("There was a problem with the database: ") . $this->error);
 		}
 	}
 

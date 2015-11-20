@@ -77,18 +77,18 @@ if ($parentResourcesCount) { ?>
 			<th colspan='2' style='margin-top: 7px; margin-bottom: 5px;'>
 			<span style='float:left; vertical-align:top; max-width:400px; margin-left:3px;'><span style='font-weight:bold;font-size:120%;margin-right:8px;'><?php echo $resource->titleText; ?></span><span style='font-weight:normal;font-size:100%;'><?php echo $acquisitionType->shortName . " " . $resourceFormat->shortName . " " . $resourceType->shortName; ?></span></span>
 
-      <span style='float:right; vertical-align:top;'><?php if ($user->canEdit()){ ?><a href='ajax_forms.php?action=getUpdateProductForm&height=498&width=730&resourceID=<?php echo $resource->resourceID; ?>&modal=true' class='thickbox'><img src='images/edit.gif' alt='edit' title='edit resource'></a><?php } ?>  <?php if ($user->isAdmin){ ?><a href='javascript:void(0);' class='removeResource' id='<?php echo $resourceID; ?>'><img src='images/cross.gif' alt='remove resource' title='remove resource'></a> <a href='javascript:void(0);' class='removeResourceAndChildren' id='<?php echo $resourceID; ?>'><img src='images/deleteall.png' alt='remove resource and its children' title='remove resource and its children'></a><?php } ?></span>
+      <span style='float:right; vertical-align:top;'><?php if ($user->canEdit()){ ?><a href='ajax_forms.php?action=getUpdateProductForm&height=498&width=730&resourceID=<?php echo $resource->resourceID; ?>&modal=true' class='thickbox'><img src='images/edit.gif' alt='<?php echo _("edit");?>' title='<?php echo _("edit resource");?>'></a><?php } ?>  <?php if ($user->isAdmin){ ?><a href='javascript:void(0);' class='removeResource' id='<?php echo $resourceID; ?>'><img src='images/cross.gif' alt='<?php echo _("remove resource");?>' title='<?php echo _("remove resource");?>'></a> <a href='javascript:void(0);' class='removeResourceAndChildren' id='<?php echo $resourceID; ?>'><img src='images/deleteall.png' alt='<?php echo _("remove resource and its children");?>' title='<?php echo _("remove resource and its children");?>'></a><?php } ?></span>
 
 			</th>
 			</tr>
 
 			<tr>
-			<td style='vertical-align:top;width:115px;'>Record ID:</td>
+			<td style='vertical-align:top;width:115px;'><?php echo _("Record ID:");?></td>
 			<td style='width:345px;'><?php echo $resource->resourceID; ?></td>
 			</tr>
 
 			<tr>
-			<td style='vertical-align:top;width:115px;'>Status:</td>
+			<td style='vertical-align:top;width:115px;'><?php echo _("Status:");?></td>
 			<td style='width:345px;'><?php echo $status->shortName; ?></td>
 			</tr>
 
@@ -98,7 +98,7 @@ if ($parentResourcesCount) { ?>
 
 				<tr class='lightGrayBackground'>
 				<td>
-				Archived:
+				<?php echo _("Archived:");?>
 				</td>
 				<td>
 				<i>
@@ -107,9 +107,9 @@ if ($parentResourcesCount) { ?>
 					echo format_date($resource->archiveDate);
 
 					if ($archiveUser->getDisplayName){
-						echo " by " . $archiveUser->getDisplayName;
+						echo _(" by ") . $archiveUser->getDisplayName;
 					}else if ($resource->archiveLoginID){
-						echo " by " . $resource->archiveLoginID;
+						echo _(" by ") . $resource->archiveLoginID;
 					}
 				?>
 
@@ -123,7 +123,7 @@ if ($parentResourcesCount) { ?>
 
 			<tr>
 			<td>
-			Created:
+			<?php echo _("Created:");?>
 			</td>
 			<td>
 			<i>
@@ -132,9 +132,9 @@ if ($parentResourcesCount) { ?>
 					echo format_date($resource->createDate);
 
 					if ($createUser->getDisplayName){
-						echo " by " . $createUser->getDisplayName;
+						echo _(" by ") . $createUser->getDisplayName;
 					}else if ($resource->createLoginID){
-						echo " by " . $resource->createLoginID;
+						echo _(" by ") . $resource->createLoginID;
 					}
 				?>
 
@@ -148,7 +148,7 @@ if ($parentResourcesCount) { ?>
 
 				<tr>
 				<td>
-				Last Update:
+				<?php echo _("Last Update:");?>
 				</td>
 				<td>
 				<i>
@@ -156,9 +156,9 @@ if ($parentResourcesCount) { ?>
 					echo format_date($resource->updateDate);
 
 					if ($updateUser->getDisplayName){
-						echo " by " . $updateUser->getDisplayName;
+						echo _(" by ") . $updateUser->getDisplayName;
 					}else if ($resource->updateLoginID){
-						echo " by " . $resource->updateLoginID;
+						echo _(" by ") . $resource->updateLoginID;
 					}
 				?>
 				</i>
@@ -173,25 +173,25 @@ if ($parentResourcesCount) { ?>
 
 
 				<tr>
-				<td style='vertical-align:top;width:115px;'>Related Products:
+				<td style='vertical-align:top;width:115px;'><?php echo _("Related Products:");?>
 				</td>
 				<td style='width:345px;'>
                     <?php if ($parentResourcesCount) { echo $parentResourcesCount; ?>
-                    parent resources: <br />
+                    <?php echo _("parent resources:"); ?><br />
                     <div id="parentResourcesPager" />
-                    <div id="parentResources">loading...</div>
+                    <div id="parentResources"><?php echo _("loading..."); ?></div>
                     <?php } 
                     if ($childResourcesCount) { echo $childResourcesCount; ?>
-                    child resources: <br />
+                    <?php echo _("child resources:"); ?><br />
                     <div id="childResourcesPager" />
-                    <div id="childResources">loading...</div>
+                    <div id="childResources"><?php echo_("loading..."); ?></div>
                     <?php } ?>
                 </td></tr>
 <?php
       if ($isbnOrIssns = $resource->getIsbnOrIssn()) {
 			?>
 			<tr>
-			<td style='vertical-align:top;width:115px;'>ISSN / ISBN:</td>
+			<td style='vertical-align:top;width:115px;'><?php echo _("ISSN / ISBN:");?></td>
       <td style='width:345px;'>
       <?php 
         foreach ($isbnOrIssns as $isbnOrIssn) {
@@ -205,7 +205,7 @@ if ($parentResourcesCount) { ?>
 			if (count($aliasArray) > 0){
 			?>
 			<tr>
-			<td style='vertical-align:top;width:115px;'>Aliases:</td>
+			<td style='vertical-align:top;width:115px;'><?php echo _("Aliases:");?></td>
 			<td style='width:345px;'>
 			<?php
 				foreach ($aliasArray as $resourceAlias){
@@ -222,14 +222,14 @@ if ($parentResourcesCount) { ?>
 			?>
 
 			<tr>
-			<td style='vertical-align:top;width:115px;'>Organizations:</td>
+			<td style='vertical-align:top;width:115px;'><?php echo _("Organizations:");?></td>
 			<td style='width:345px;'>
 
 				<?php
 				foreach ($orgArray as $organization){
 					//if organizations is installed provide a link
 					if ($config->settings->organizationsModule == 'Y'){
-						echo "<span style='float:left; width:75px;'>" . $organization['organizationRole'] . ":</span><span style='width:270px;'>" . $organization['organization'] . "&nbsp;&nbsp;<a href='" . $util->getOrganizationURL() . $organization['organizationID'] . "' target='_blank'><img src='images/arrow-up-right.gif' alt='View " . $organization['organization'] . "' title='View " . $organization['organization'] . "' style='vertical-align:top;'></a></span><br />";
+						echo "<span style='float:left; width:75px;'>" . $organization['organizationRole'] . ":</span><span style='width:270px;'>" . $organization['organization'] . "&nbsp;&nbsp;<a href='" . $util->getOrganizationURL() . $organization['organizationID'] . "' target='_blank'><img src='images/arrow-up-right.gif' alt='"._("View ") . $organization['organization'] . "' title='"._("View ") . $organization['organization'] . "' style='vertical-align:top;'></a></span><br />";
 					}else{
 						echo "<span style='float:left; width:75px;'>" . $organization['organizationRole'] . ":</span><span style='width:270px;'>" . $organization['organization'] . "</span><br />";
 					}
@@ -243,23 +243,23 @@ if ($parentResourcesCount) { ?>
 
 			if ($resource->resourceURL) { ?>
 				<tr>
-				<td style='vertical-align:top;width:115px;'>Resource URL:</td>
-				<td style='width:345px;'><?php echo $resource->resourceURL; ?>&nbsp;&nbsp;<a href='<?php echo $resource->resourceURL; ?>' target='_blank'><img src='images/arrow-up-right.gif' alt='Visit Resource URL' title='Visit Resource URL' style='vertical-align:top;'></a></td>
+				<td style='vertical-align:top;width:115px;'><?php echo _("Resource URL:");?></td>
+				<td style='width:345px;'><?php echo $resource->resourceURL; ?>&nbsp;&nbsp;<a href='<?php echo $resource->resourceURL; ?>' target='_blank'><img src='images/arrow-up-right.gif' alt="<?php echo _("Visit Resource URL");?>" title="<?php echo _("Visit Resource URL");?>" style='vertical-align:top;'></a></td>
 				</tr>
 			<?php
 			}
 
 			if ($resource->resourceAltURL) { ?>
 				<tr>
-				<td style='vertical-align:top;width:115px;'>Alt URL:</td>
-				<td style='width:345px;'><?php echo $resource->resourceAltURL; ?>&nbsp;&nbsp;<a href='<?php echo $resource->resourceAltURL; ?>' target='_blank'><img src='images/arrow-up-right.gif' alt='Visit Secondary Resource URL' title='Visit Secondary Resource URL' style='vertical-align:top;'></a></td>
+				<td style='vertical-align:top;width:115px;'><?php echo _("Alt URL:");?></td>
+				<td style='width:345px;'><?php echo $resource->resourceAltURL; ?>&nbsp;&nbsp;<a href='<?php echo $resource->resourceAltURL; ?>' target='_blank'><img src='images/arrow-up-right.gif' alt="<?php echo _("Visit Secondary Resource URL");?>" title="<?php echo _("Visit Secondary Resource URL");?>" style='vertical-align:top;'></a></td>
 				</tr>
 			<?php
 			}
 
 			if ($resource->descriptionText){ ?>
 				<tr>
-				<td style='vertical-align:top;width:115px;'>Description:</td>
+				<td style='vertical-align:top;width:115px;'><?php echo _("Description:");?></td>
 				<td style='width:345px;'><?php echo nl2br($resource->descriptionText); ?></td>
 				</tr>
 			<?php } 
@@ -325,7 +325,7 @@ if ($parentResourcesCount) { ?>
 
 		</table>
 		<?php if ($user->canEdit()){ ?>
-		<a href='ajax_forms.php?action=getUpdateProductForm&height=498&width=730&modal=true&resourceID=<?php echo $resourceID; ?>' class='thickbox' id='editResource'>edit product details</a><br />
+		<a href='ajax_forms.php?action=getUpdateProductForm&height=498&width=730&modal=true&resourceID=<?php echo $resourceID; ?>' class='thickbox' id='editResource'><?php echo _("edit product details");?></a><br />
 		<?php } ?>
 
 		<br />
@@ -353,7 +353,7 @@ if ($parentResourcesCount) { ?>
 		?>
 			<table class='linedFormTable'>
 				<tr>
-				<th>Subjects</th>
+				<th><?php echo _("Subjects");?></th>
 				<th>
 				</th>
 				<th>
@@ -392,7 +392,7 @@ if ($parentResourcesCount) { ?>
 								<?php if ($user->canEdit() && $canDelete){ ?>
 
 
-									<a href='javascript:void(0);' tab='Product' class='removeResourceSubjectRelationship' generalDetailSubjectID='<?php echo $generalDetailSubjectID[generalDetailSubjectLinkID]; ?>' resourceID='<?php echo $resourceID; ?>'><img src='images/cross.gif' alt='remove subject' title='remove subject'></a>
+									<a href='javascript:void(0);' tab='Product' class='removeResourceSubjectRelationship' generalDetailSubjectID='<?php echo $generalDetailSubjectID[generalDetailSubjectLinkID]; ?>' resourceID='<?php echo $resourceID; ?>'><img src='images/cross.gif' alt='<?php echo _("remove subject");?>' title='<?php echo _("remove subject");?>'></a>
 								<?php } ?>
 							</td>
 
@@ -413,7 +413,7 @@ if ($parentResourcesCount) { ?>
 
 		if ($user->canEdit()){
 		?>
-			<a href='ajax_forms.php?action=getResourceSubjectForm&height=233&width=425&tab=Product&resourceID=<?php echo $resourceID; ?>&modal=true' class='thickbox'>add new subject</a>
+			<a href='ajax_forms.php?action=getResourceSubjectForm&height=233&width=425&tab=Product&resourceID=<?php echo $resourceID; ?>&modal=true' class='thickbox'><?php echo _("add new subject");?></a>
 		<?php
 		}
 
@@ -460,10 +460,10 @@ if ($parentResourcesCount) { ?>
 		?>
 			<table class='linedFormTable'>
 				<tr>
-				<th>Additional Notes</th>
+				<th><?php echo _("Additional Notes");?></th>
 				<th>
 				<?php if ($user->canEdit()){ ?>
-					<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&resourceID=<?php echo $resourceID; ?>&resourceNoteID=&modal=true' class='thickbox'>add new note</a>
+					<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&resourceID=<?php echo $resourceID; ?>&resourceNoteID=&modal=true' class='thickbox'><?php echo _("add new note");?></a>
 				<?php } ?>
 				</th>
 				</tr>
@@ -471,10 +471,10 @@ if ($parentResourcesCount) { ?>
 					<tr>
 					<td style='width:115px;'><?php echo $resourceNote['noteTypeName']; ?><br />
 					<?php if ($user->canEdit()){ ?>
-					<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&resourceID=<?php echo $resourceID; ?>&resourceNoteID=<?php echo $resourceNote['resourceNoteID']; ?>&modal=true' class='thickbox'><img src='images/edit.gif' alt='edit' title='edit note'></a>  <a href='javascript:void(0);' class='removeNote' id='<?php echo $resourceNote['resourceNoteID']; ?>' tab='Product'><img src='images/cross.gif' alt='remove note' title='remove note'></a>
+					<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&resourceID=<?php echo $resourceID; ?>&resourceNoteID=<?php echo $resourceNote['resourceNoteID']; ?>&modal=true' class='thickbox'><img src='images/edit.gif' alt='<?php echo _("edit");?>' title='<?php echo _("edit note");?>'></a>  <a href='javascript:void(0);' class='removeNote' id='<?php echo $resourceNote['resourceNoteID']; ?>' tab='Product'><img src='images/cross.gif' alt='<?php echo _("remove note");?>' title='<?php echo _("remove note");?>'></a>
 					<?php } ?>
 					</td>
-					<td><?php echo nl2br($resourceNote['noteText']); ?><br /><i><?php echo format_date($resourceNote['updateDate']) . " by " . $resourceNote['updateUser']; ?></i></td>
+					<td><?php echo nl2br($resourceNote['noteText']); ?><br /><i><?php echo format_date($resourceNote['updateDate']) . _(" by ") . $resourceNote['updateUser']; ?></i></td>
 					</tr>
 				<?php } ?>
 			</table>
@@ -482,7 +482,7 @@ if ($parentResourcesCount) { ?>
 		}else{
 			if ($user->canEdit()){
 			?>
-				<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&resourceID=<?php echo $resourceID; ?>&resourceNoteID=&modal=true' class='thickbox'>add new note</a>
+				<a href='ajax_forms.php?action=getNoteForm&height=233&width=410&tab=Product&resourceID=<?php echo $resourceID; ?>&resourceNoteID=&modal=true' class='thickbox'><?php echo _("add new note");?></a>
 			<?php
 			}
 		}
