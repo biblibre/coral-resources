@@ -184,7 +184,7 @@ if ($parentResourcesCount) { ?>
                     if ($childResourcesCount) { echo $childResourcesCount; ?>
                     <?php echo _("child resources:"); ?><br />
                     <div id="childResourcesPager" />
-                    <div id="childResources"><?php echo_("loading..."); ?></div>
+                    <div id="childResources"><?php echo _("loading..."); ?></div>
                     <?php } ?>
                 </td></tr>
 <?php
