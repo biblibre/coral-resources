@@ -46,6 +46,7 @@ $coralURL = $util->getCORALURL();
 <link rel="stylesheet" href="css/jquery.autocomplete.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/jquery.tooltip.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/jquery.bootpag.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="css/gokb.search.css" type="text/css" media="screen" />
 <link rel="SHORTCUT ICON" href="images/butterflyfishfavicon.ico" />
 <script type="text/javascript" src="js/plugins/jquery.js"></script>
 <script type="text/javascript" src="js/plugins/jquery-migrate-1.2.1.min.js"></script>
