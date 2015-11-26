@@ -132,17 +132,16 @@ class Resource extends DatabaseObject {
 
 		$objects = array();
 
-		//need to do this since it could be that there's only one request and this is how the dbservice returns result
-		if (isset($result['isbnOrIssnID'])){
-			$object = new IsbnOrIssn(new NamedArguments(array('primaryKey' => $result['isbnOrIssnID'])));
-			array_push($objects, $object);
-		} else {
-      foreach ($result as $row) {
-				$object = new IsbnOrIssn(new NamedArguments(array('primaryKey' => $row['isbnOrIssnID'])));
-				array_push($objects, $object);
-			}
-
-    }
+        //need to do this since it could be that there's only one request and this is how the dbservice returns result
+        if (isset($result['resourceID'])) {
+              $object = new Resource(new NamedArguments(array('primaryKey' => $result['resourceID'])));
+              array_push($objects, $object);
+        } else {
+              foreach ($result as $row) {
+                    $object = new Resource(new NamedArguments(array('primaryKey' => $row['resourceID'])));
+                    array_push($objects, $object);
+              }
+        }
 
 		return $objects;
 
