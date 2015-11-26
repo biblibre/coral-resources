@@ -352,3 +352,4 @@ function kill() {
       $('.select').die('focus');
 
 }
+});
