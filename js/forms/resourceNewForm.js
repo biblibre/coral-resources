@@ -152,22 +152,6 @@ $(document).ready(function () {
     	
 
 
-      //the following are all to change the look of the inputs when they're clicked
-      $('.changeDefaultWhite').live('focus', function (e) {
-            if (this.value == this.defaultValue) {
-                  this.value = '';
-            }
-      });
-
-      $('.changeDefaultWhite').live('blur', function () {
-            if (this.value == '') {
-                  this.value = this.defaultValue;
-            }
-      });
-
-
-      $('.changeInput').addClass("idleField");
-
 	 $(document).on('blur', '.changeInput', function() {
 		$(this).removeClass("focusField").addClass("idleField");
 	 });
@@ -177,6 +161,7 @@ $(document).ready(function () {
 		if (this.value == this.defaultValue){
 			this.value = '';
 		}
+    });
 
 	$(document).on('focus', '.changeInput', function() {
 
