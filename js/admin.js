@@ -344,6 +344,7 @@ function deleteData(className, deleteID){
 
             }
         });
+    }
  }
 
 
