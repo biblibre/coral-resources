@@ -107,6 +107,12 @@
 					<td><textarea rows='3' id='descriptionText' style='width:223px'><?php echo $resource->descriptionText; ?></textarea></td>
 					</tr>
 
+                    <tr>
+                    <td style="vertical-align:top;text-align:left;"><label for="ISSNText">ISSN:</label></td>
+                    <td><input type="text" id="ISSNText" style="width:220px;" class="changeInput ac_input idleField" value="" autocomplete="off"><span id="span_error_providerText" class="smallDarkRedText"></span></td>
+                    <td ><img class="loupe" src= 'images/loupe.png'/></td/>
+                    </tr>
+
 					<tr>
 					<td style='vertical-align:top;text-align:left;'><label for='providerText'>Provider:</label></td>
 					<td><input type='text' id='providerText' style='width:220px;' class='changeInput' value='<?php echo $providerText; ?>' /><span id='span_error_providerText' class='smallDarkRedText'></span></td>
