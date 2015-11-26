@@ -15,7 +15,7 @@
         $resource->dateLastIssueOnline = $_POST['dateLastIssueOnline'] ? date("Y-m-d", strtotime($_POST['dateLastIssueOnline'])) : 'null';
 
     $isbnarray = json_decode($_POST['isbnOrISSN']);
-    $resource->setIsbnOrIssn($isbnarray);
+    $resource->setIdentifiers($isbnarray);
 
 		//to determine status id
 		$status = new Status();
