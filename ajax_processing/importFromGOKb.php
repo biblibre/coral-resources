@@ -2,10 +2,10 @@
             <span class='headerText'>Import from GOKb</span>
       </div>
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/domain/GOKbTools.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/domain/ImportTool.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/domain/AcquisitionType.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/domain/ResourceFormat.php";
+include_once "admin/classes/domain/GOKbTools.php";
+include_once "admin/classes/domain/ImportTool.php";
+include_once "admin/classes/domain/AcquisitionType.php";
+include_once "admin/classes/domain/ResourceFormat.php";
 
 $gokbTool = GOKbTools::getInstance();
 $importTool = new ImportTool();

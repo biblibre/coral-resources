@@ -1,15 +1,15 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/common/Configuration.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/domain/Resource.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/domain/ResourceRelationship.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/domain/ResourceType.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/domain/AliasType.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/domain/Alias.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "organizations/admin/classes/domain/Organization.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "organizations/admin/classes/domain/OrganizationRole.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/domain/ResourceOrganizationLink.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "organizations/admin/classes/domain/OrganizationHierarchy.php";
+include_once "admin/classes/common/Configuration.php";
+include_once "admin/classes/domain/Resource.php";
+include_once "admin/classes/domain/ResourceRelationship.php";
+include_once "admin/classes/domain/ResourceType.php";
+include_once "admin/classes/domain/AliasType.php";
+include_once "admin/classes/domain/Alias.php";
+include_once "../organizations/admin/classes/domain/Organization.php";
+include_once "../organizations/admin/classes/domain/OrganizationRole.php";
+include_once "admin/classes/domain/ResourceOrganizationLink.php";
+include_once "../organizations/admin/classes/domain/OrganizationHierarchy.php";
 
 //include_once $_SERVER['DOCUMENT_ROOT'] . "resources/directory.php";
 
