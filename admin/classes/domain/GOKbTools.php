@@ -1,7 +1,7 @@
 <?php
 
 require 'vendor/autoload.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/domain/MyClient.php";
+include_once "admin/classes/domain/MyClient.php";
 
 use Phpoaipmh\Client,
     Phpoaipmh\Endpoint,

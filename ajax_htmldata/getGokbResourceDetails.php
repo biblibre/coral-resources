@@ -4,8 +4,8 @@
 
 
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/admin/classes/domain/GOKbTools.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "resources/ajax_htmldata/getPagination.php";
+include_once "admin/classes/domain/GOKbTools.php";
+include_once "ajax_htmldata/getPagination.php";
 
 $tool = GOKbTools::getInstance();
 $record = $tool->getDetails($_POST['type'], $_POST['id']);
