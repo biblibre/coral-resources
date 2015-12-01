@@ -913,7 +913,7 @@ class Resource extends DatabaseObject {
 	  }
 		if ($search['resourceISBNOrISSN']) {
 		  $resourceISBNOrISSN = $resource->db->escapeString(str_replace("-","",$search['resourceISBNOrISSN']));
-		  $whereAdd[] = "REPLACE(I.isbnOrIssn,'-','') = '" . $resourceISBNOrISSN . "'";
+		  $whereAdd[] = "REPLACE(I.identifier,'-','') = '" . $resourceISBNOrISSN . "'";
 		  $searchDisplay[] = "ISSN/ISBN: " . $search['resourceISBNOrISSN'];
 		}
 		if ($search['fund']) {
