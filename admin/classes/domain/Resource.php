@@ -1390,7 +1390,7 @@ class Resource extends DatabaseObject {
 				$orgArray = array();
 
 					//first, get the organization name
-					$query = "SELECT name FROM " . $dbName . ".Organization WHERE organizationID = " . $row['organizationID'];
+					$query = "SELECT name FROM " . $dbName . ".Organization WHERE organizationID = " . $result['organizationID'];
 
 					if ($orgResult = $this->db->query($query)){
 						while ($orgRow = $orgResult->fetch_assoc()){
@@ -1400,7 +1400,7 @@ class Resource extends DatabaseObject {
 					}
 
 					//then, get the role name
-					$query = "SELECT * FROM " . $dbName . ".OrganizationRole WHERE organizationRoleID = " . $row['organizationRoleID'];
+					$query = "SELECT * FROM " . $dbName . ".OrganizationRole WHERE organizationRoleID = " . $result['organizationRoleID'];
 
 
 					if ($orgResult = $this->db->query($query)){
