@@ -1544,8 +1544,8 @@ class Resource extends DatabaseObject {
                         $orgArray = array();
                         //first, get the organization name
                         $query = "SELECT name FROM " . $dbName . ".Organization WHERE organizationID = " . $result['organizationID'];
-                        if ($orgResult = mysql_query($query)) {
-                              while ($orgRow = mysql_fetch_assoc($orgResult)) {
+                        if ($orgResult = $this->db->query($query)) {
+                              while ($orgRow = $orgResult->fetch_assoc()) {
                                     $orgArray['organization'] = $orgRow['name'];
                                     $orgArray['organizationID'] = $result['organizationID'];
                               }
