@@ -433,7 +433,7 @@ class ImportTool {
 //                  $relation->parentOrganizationID = $parentID;
 //                  $relation->save();
 //$query = "INSERT INTO $dbName.OrganizationHierarchy SET `organizationID`=$orgID, `parentOrganizationID`=$parentID ;";
-                  $query = "INSERT INTO $dbName.OrganizationHierarchy VALUES ($orgID, $parentID);";
+                  $query = "INSERT IGNORE INTO $dbName.OrganizationHierarchy VALUES ($orgID, $parentID);";
                   $relation->db->processQuery($query);
             }
       }
