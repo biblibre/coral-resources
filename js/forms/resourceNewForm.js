@@ -21,6 +21,12 @@ $(document).ready(function () {
             submitResource($(this).attr("id"));
       });
 
+      $(".cancelResource").click(function () {
+            kill();
+            tb_remove();
+      });
+
+
       $("#search").click(function () {
             searchGokb($('#titleText').val(), $('#ISSNText').val(), $('#providerText').val());
       });
@@ -212,7 +218,6 @@ $(document).ready(function () {
             return false;
       });
 
-
 function validateNewResource() {
       myReturn = 0;
 
@@ -338,18 +343,18 @@ function validateSearchFields() {
       }
 }
 
-//kill all binds done by jquery live
+//kill all binds done by jquery on
 function kill() {
-
-      $('.remove').die('click');
-      $('.changeAutocomplete').die('blur');
-      $('.changeAutocomplete').die('focus');
-      $('.changeDefault').die('blur');
-      $('.changeDefault').die('focus');
-      $('.changeInput').die('blur');
-      $('.changeInput').die('focus');
-      $('.select').die('blur');
-      $('.select').die('focus');
-
+      $(document).off('click', '.remove');
+      $(document).off('blur', '.changeAutocomplete');
+      $(document).off('focus', '.changeAutocomplete');
+      $(document).off('blur', '.changeDefault');
+      $(document).off('focus', '.changeDefault');
+      $(document).off('blur', '.changeInput');
+      $(document).off('focus', '.changeInput');
+      $(document).off('blur', '.select');
+      $(document).off('focus', '.select');
 }
+
+
 });

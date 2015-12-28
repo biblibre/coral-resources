@@ -303,7 +303,7 @@
 				<td style="text-align:left"><input type="button" value='<?php echo _("Search on GOKb");?>' class="searchGokb" id="search"></td>
 				<td style='text-align:left'><input type='button' value='<?php echo _("save");?>' class='submitResource' id ='save'></td>
 				<td style='text-align:left'><input type='button' value='<?php echo _("submit");?>' class='submitResource' id ='progress'></td>
-				<td style='text-align:left'><input type='button' value='<?php echo _("cancel");?>' onclick="kill(); tb_remove()"></td>
+				<td style='text-align:left'><input type='button' value='<?php echo _("cancel");?>' class='cancelResource'></td>
 			</tr>
 			<tr>
 				<span id='span_error_search' class='smallDarkRedText'></span>
