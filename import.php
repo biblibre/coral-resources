@@ -177,12 +177,13 @@ if ($_POST['matchsubmit']) {
 }
 if ($cli || $_POST['matchsubmit']) {
       $tool = new ImportTool();
-      $delimiter = $_POST['delimiter'];
+    /*  $delimiter = $_POST['delimiter'];
       $deduping_config = explode(',', $config->settings->importISBNDedupingColumns);
-      $uploadfile = $_POST['uploadfile'];
+      $uploadfile = $_POST['uploadfile'];*/
       if (($handle = fopen($uploadfile, "r")) !== FALSE) {
             $row = 0;
             while ($line = fgetcsv($handle, 0, $delimiter)) {
+
                   if ($row == 0) {
                         print "<h2>Settings</h2>";
                         print "<p>Importing and deduping isbnOrISSN on the following columns: ";
@@ -198,9 +199,14 @@ if ($cli || $_POST['matchsubmit']) {
                         $identifiers = array();
 
                         $datas['titleText'] = $line[$_POST['titleText']];
+                        $datas['title_id'] = $line[$_POST['title_id']];
                         $datas['resourceURL'] = $line[$_POST['resourceURL']];
                         $datas['resourceAltURL'] = $line[$_POST['resourceAltURL']];
-                        $datas['parentResource'] = $line[$_POST['parentResource']];
+                        if ($_POST['genericParent']) {
+                            $datas['parentResource'] = $_POST['genericParent'];
+                        } else {
+                            $datas['parentResource'] = $line[$_POST['parentResource']];
+                        }
                         $org = $_POST['organization'];
                         if (($line[$org] != null )&&($line[$org] != '')){
                               $datas['organization']=array($line[$_POST['role']] =>$line[$org]);
@@ -209,7 +215,7 @@ if ($cli || $_POST['matchsubmit']) {
                         foreach ($deduping_columns as $column) {
                               array_push($identifiers, $line[$column]);
                         }
-
+//print_r($identifiers);
                         $tool->addResource($datas, $identifiers);
                   }
               $row++;    

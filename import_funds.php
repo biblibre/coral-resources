@@ -44,6 +44,13 @@ while (($data = fgetcsv($handle, 0, $delimiter)) !== FALSE) {
             $rp->invoiceNum = $data[$cols['invoice_number']];
             $rp->orderTypeID = 2;
             $rp->subscriptionStartDate = $data[$cols['invoice_date']];
+            
+            if ($data[$cols['payee']]) {
+                $rp->payeeOrganizationID = findOrCreateOrganization($data[$cols['payee']]);
+            }
+            if ($data[$cols['payer']]) {
+                $rp->payerOrganizationID = findOrCreateOrganization($data[$cols['payer']]);
+            }
             $rp->save();
             echo $title_id  . " fund saved\n";
 
@@ -53,4 +60,41 @@ while (($data = fgetcsv($handle, 0, $delimiter)) !== FALSE) {
     }
     $row++;
 }
+
+function findOrCreateOrganization($organizationName) {
+    $config = new Configuration();
+    $dbName = $config->settings->organizationsDatabaseName;
+    $r = new Resource();
+    $query = "SELECT count(*) AS count FROM $dbName.Organization WHERE UPPER(name) = '" . str_replace("'", "''", strtoupper($organizationName)) . "'";
+    $result = $r->db->processQuery($query, 'assoc');
+    if ($result['count'] == 0) {
+       $organizationID = createOrgWithOrganizationModule($organizationName); 
+       echo "Organization $organizationName created (" . $organizationID . ")\n";
+       return $organizationID;
+    } elseif ($result['count'] == 1) {
+        $query = "SELECT organizationID FROM $dbName.Organization WHERE UPPER(name) = '" . str_replace("'", "''", strtoupper($organizationName)) . "'";
+        $result = $r->db->processQuery($query, 'assoc');
+        echo "Organization $organizationName found (" . $result['organizationID'] . ")\n";
+        return $result['organizationID'];
+    } else {
+        echo "Warning: multiple Organizations found for $organizationName\n";
+        return null;
+    }
+}
+
+function createOrgWithOrganizationModule($orgName) {
+    $config = new Configuration();
+    $dbName = $config->settings->organizationsDatabaseName;
+    $loginID = $_SESSION['loginID'];
+
+    $organization = new Organization();
+    $query = "INSERT INTO $dbName.Organization SET createDate=NOW(), createLoginID='$loginID', name='" . mysql_escape_string($orgName) . "'";
+    try {
+          $result = $organization->db->processQuery($query);
+          $organizationID = $result;
+    } catch (Exception $e) {
+    }
+    return $organizationID;
+}
+
 ?>
