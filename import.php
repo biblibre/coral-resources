@@ -219,6 +219,7 @@ if ($cli || $_POST['matchsubmit']) {
                             echo "Cannot add a resource without identifier: " . $datas['titleText'] . "\n";
                             next;
                         } else {
+                            echo "Adding resource " . $datas['titleText'] . "\n";
                             $tool->addResource($datas, $identifiers);
                         }
                   }
