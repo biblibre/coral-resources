@@ -213,10 +213,14 @@ if ($cli || $_POST['matchsubmit']) {
                         }
 
                         foreach ($deduping_columns as $column) {
-                              array_push($identifiers, $line[$column]);
+                              if ($line[$column]) array_push($identifiers, $line[$column]);
                         }
-//print_r($identifiers);
-                        $tool->addResource($datas, $identifiers);
+                        if (count($identifiers) == 0) {
+                            echo "Cannot add a resource without identifier: " . $datas['titleText'] . "\n";
+                            next;
+                        } else {
+                            $tool->addResource($datas, $identifiers);
+                        }
                   }
               $row++;    
             }
