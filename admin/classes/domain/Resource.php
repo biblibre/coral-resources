@@ -226,24 +226,6 @@ class Resource extends DatabaseObject {
                         array_push($objects, $object);
                   }
             }
-
-		$query = "SELECT * FROM ResourcePayment WHERE resourceID = '" . $this->resourceID . "' ORDER BY year DESC, fundName, subscriptionStartDate DESC";
-
-		$result = $this->db->processQuery($query, 'assoc');
-
-		$objects = array();
-
-		//need to do this since it could be that there's only one request and this is how the dbservice returns result
-		if (isset($result['resourcePaymentID'])){
-			$object = new ResourcePayment(new NamedArguments(array('primaryKey' => $result['resourcePaymentID'])));
-			array_push($objects, $object);
-		}else{
-			foreach ($result as $row) {
-				$object = new ResourcePayment(new NamedArguments(array('primaryKey' => $row['resourcePaymentID'])));
-				array_push($objects, $object);
-			}
-		}
-
 		return $objects;
 	}
 
