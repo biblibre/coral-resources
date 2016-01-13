@@ -1385,9 +1385,7 @@ class Resource extends DatabaseObject {
 			$dbName = $config->settings->organizationsDatabaseName;
 
 			$resourceOrgArray = array();
-
 			$query = "SELECT * FROM ResourceOrganizationLink WHERE resourceID = '" . $this->resourceID . "'";
-
 			$result = $this->db->processQuery($query, 'assoc');
 
 			$objects = array();
@@ -1402,7 +1400,7 @@ class Resource extends DatabaseObject {
 					if ($orgResult = $this->db->query($query)){
 						while ($orgRow = $orgResult->fetch_assoc()){
 							$orgArray['organization'] = $orgRow['name'];
-							$orgArray['organizationID'] = $row['organizationID'];
+							$orgArray['organizationID'] = $result['organizationID'];
 						}
 					}
 
