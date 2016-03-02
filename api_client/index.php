@@ -25,6 +25,16 @@ if ($_POST['submitProposeResourceForm']) {
         echo "<p>The resource could not be submitted.</p>";
     }
 } else {
+  // Checking if the API is up
+  $response = Unirest\Request::get($server . "version/", $headers, $body);
+  if ($response->code != 200) {
+      if ($response->code == 403) {
+        echo "<p>You are not authorized to use this service.</p>";
+      }
+      if ($response->code == 500) {
+        echo "<p>This service encountered an error.</p>";
+      }
+  } else {
 ?>
 <form name="proposeResourceForm" action="index.php" method="POST" class="pure-form pure-form-aligned" style="margin:50px">
 <fieldset>
@@ -65,6 +75,7 @@ if ($_POST['submitProposeResourceForm']) {
 <input type="submit" name="submitProposeResourceForm" />
 </form>
 <?php
+}
 }
 
 function getResourceTypesAsRadio($server) {
