@@ -26,8 +26,11 @@ Flight::route('/proposeResource/', function(){
     foreach ($fieldNames as $fieldName) {
         $resource->$fieldName = Flight::request()->data->$fieldName;
     }
-    $resource->save();
-    echo $resource->primaryKey;
+    try {
+        $resource->save();
+    } catch (Exception $e) {
+        Flight::json(array('error' => $e->getMessage()));
+    }
     $resourceID = $resource->primaryKey;
     Flight::json(array('resourceID' => $resourceID));
 

@@ -22,8 +22,9 @@ if ($_POST['submitProposeResourceForm']) {
     if ($response->body->resourceID) {
         echo "<p>The resource was correctly submitted (resource " . $response->body->resourceID . ")</p>";
     } else {
-        echo "<p>The resource could not be submitted.</p>";
+        echo "<p>The resource could not be submitted. (error: " . $response->body->error . ")</p>";
     }
+    echo '<a href="index.php">Submit another resource</a>';
 } else {
   // Checking if the API is up
   $response = Unirest\Request::get($server . "version/", $headers, $body);
