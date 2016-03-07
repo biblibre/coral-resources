@@ -71,8 +71,14 @@ function isAllowed() {
     if (!$authorizedIP) { return 0; }
 
     // If a matching IP has been found, allow
-    if (in_array($_SERVER['REMOTE_ADDR'], $authorizedIP)) { return 1; } 
+    if (array_filter($authorizedIP, "IpFilter")) { return 1; } 
 
     return 0;
+}
+
+// A matching IP is either a complete IP or the start of one (allowing IP range)
+function IpFilter($var) {
+    $pos = strpos($_SERVER['REMOTE_ADDR'], $var);
+    return $pos === false ? false : true;
 }
 ?>
