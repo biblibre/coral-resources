@@ -23,6 +23,7 @@ if (!isAllowed()) {
 Flight::route('/proposeResource/', function(){
     $resource = new Resource();
     $resource->createDate = date( 'Y-m-d' );
+    $resource->createLoginID = 'coral';
     $resource->statusID = 1;
     $resource->updateDate                   = '';
     $resource->updateLoginID                = '';
