@@ -31,6 +31,7 @@ if ($_POST['submitProposeResourceForm']) {
   if ($response->code != 200) {
       if ($response->code == 403) {
         echo "<p>You are not authorized to use this service.</p>";
+        echo $response->body;
       }
       if ($response->code == 500) {
         echo "<p>This service encountered an error.</p>";

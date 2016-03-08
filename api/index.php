@@ -16,6 +16,7 @@ include_once '../admin/classes/domain/ResourceFormat.php';
 
 if (!isAllowed()) {
     header('HTTP/1.0 403 Forbidden');
+    echo "Unauthorized IP: " . $_SERVER['REMOTE_ADDR'];
     die();
 }
 
