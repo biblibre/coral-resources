@@ -23,6 +23,36 @@ if (!isAllowed()) {
 Flight::route('/proposeResource/', function(){
     $resource = new Resource();
     $resource->createDate = date( 'Y-m-d' );
+    $resource->statusID = 1;
+    $resource->updateDate                   = '';
+    $resource->updateLoginID                = '';
+    $resource->orderNumber                  = '';
+    $resource->systemNumber                 = '';
+    $resource->userLimitID                  = '';
+    $resource->authenticationUserName       = '';
+    $resource->authenticationPassword       = '';
+    $resource->storageLocationID            = '';
+    $resource->registeredIPAddresses        = '';
+    $resource->coverageText                 = '';
+    $resource->archiveDate                  = '';
+    $resource->archiveLoginID               = '';
+    $resource->workflowRestartDate          = '';
+    $resource->workflowRestartLoginID       = '';
+    $resource->currentStartDate             = '';
+    $resource->currentEndDate               = '';
+    $resource->subscriptionAlertEnabledInd  = '';
+    $resource->authenticationTypeID         = '';
+    $resource->accessMethodID               = '';
+    $resource->recordSetIdentifier          = '';
+    $resource->hasOclcHoldings              = '';
+    $resource->numberRecordsAvailable       = '';
+    $resource->numberRecordsLoaded          = '';
+    $resource->bibSourceURL                 = '';
+    $resource->catalogingTypeID             = '';
+    $resource->catalogingStatusID           = '';
+    $resource->mandatoryResource            = '';
+    $resource->resourceID                   = null;
+
     $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID");
     foreach ($fieldNames as $fieldName) {
         $resource->$fieldName = Flight::request()->data->$fieldName;
