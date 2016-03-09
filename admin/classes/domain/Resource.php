@@ -2138,6 +2138,22 @@ class Resource extends DatabaseObject {
             $result = $this->db->processQuery($query);
       }
 
+      public function removeAllIsbnOrIssn() {
+        $query = "DELETE
+                  FROM Identifier
+                  WHERE resourceID = '" . $this->resourceID . "'
+                  AND identifierTypeID < 6";
+
+        $result = $this->db->processQuery($query);
+
+      }
+
+      public function setIsbnOrIssn($identifiers) {
+            $this->removeAllIsbnOrIssn();
+            $this->setIdentifiers($identifiers);
+      }
+
+
       /**
        * Fill the Identifier table in DB
        * @param $identifiers 	array 	array of all identifiers (type => id) (if type isn't known, don't put any key)
@@ -2146,12 +2162,14 @@ class Resource extends DatabaseObject {
       public function setIdentifiers($identifiers) {
          //   $isbnorissns = array();
             foreach ($identifiers as $key => $value) {
+                if ($value) {
                   $identifier = new Identifier();
                   $identifier->resourceID = $this->resourceID;
                   $identifier->identifierTypeID = $identifier->getIdentifierTypeID($key);
                   $identifier->identifier = $value;
 
                   $identifier->save();
+                }
 /*
                   //Temporary fill IsbnOrIssn table
                   if ($identifier->identifierTypeID <= 5) {

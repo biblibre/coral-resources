@@ -89,7 +89,7 @@ $orgArray = $resource->getOrganizationArray();
 					<table>
 					<tr>
 					<td style='vertical-align:top;text-align:left;font-weight:bold;'><label for='titleText'><?php echo _("Name:");?></label></td>
-					<td><input type='text' id='titleText' name='titleText' value = "<?php echo $resource->titleText; ?>" style='width:260px;' class='changeInput' /><span id='span_error_titleText' class='smallDarkRedText'></span></td>
+					<td><input type='text' id='titleText' name='titleText' value="<?php echo $resource->titleText; ?>" style='width:260px;' class='changeInput' /><span id='span_error_titleText' class='smallDarkRedText'></span></td>
 					</tr>
 
                     <tr>
@@ -162,7 +162,7 @@ $parentResourceObj = new Resource(new NamedArguments(array('primaryKey' => $pare
            $isbnOrIssns = $resource->getIsbnOrIssn();
            $i = 1;
            foreach ($isbnOrIssns as $isbnOrIssn) {
-             ?><input type='text' class='isbnOrISSN' name='isbnOrISSN' value = '<?php echo $isbnOrIssn->isbnOrIssn; ?>' style='width:97px;' class='changeInput'  /><br /><?php
+             ?><input type='text' class='isbnOrISSN' name='isbnOrISSN' value = '<?php echo $isbnOrIssn->identifier; ?>' style='width:97px;' class='changeInput'  /><br /><?php
              $i++;
            }
           ?>
