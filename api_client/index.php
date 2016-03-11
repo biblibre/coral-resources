@@ -6,6 +6,7 @@ $server = "http://coral.local/resources/api/";
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
 <head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
 <link rel="stylesheet" href="pure-min.css">
 </head>
 <h1>Simple Resources module API client</h1>
