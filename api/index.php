@@ -13,6 +13,8 @@ include_once '../admin/classes/domain/Resource.php';
 include_once '../admin/classes/domain/ResourceType.php';
 include_once '../admin/classes/domain/AcquisitionType.php';
 include_once '../admin/classes/domain/ResourceFormat.php';
+include_once '../admin/classes/domain/NoteType.php';
+include_once '../admin/classes/domain/ResourceNote.php';
 
 if (!isAllowed()) {
     header('HTTP/1.0 403 Forbidden');
@@ -60,10 +62,37 @@ Flight::route('/proposeResource/', function(){
     }
     try {
         $resource->save();
+        $resourceID = $resource->primaryKey;
+        //add notes
+        if ((Flight::request()->data['noteText']) || ((Flight::request()->data['providerText']) && (!Flight::request()->data['organizationID']))){
+            //first, remove existing notes in case this was saved before
+            $resource->removeResourceNotes();
+
+            //this is just to figure out what the creator entered note type ID is
+            $noteType = new NoteType();
+
+            $resourceNote = new ResourceNote();
+            $resourceNote->resourceNoteID   = '';
+            $resourceNote->updateLoginID    = 'coral';
+            $resourceNote->updateDate       = date( 'Y-m-d' );
+            $resourceNote->noteTypeID       = $noteType->getInitialNoteTypeID();
+            $resourceNote->tabName          = 'Product';
+            $resourceNote->resourceID       = $resourceID;
+
+            //only insert provider as note if it's been submitted
+            if ((Flight::request()->data['providerText']) && (!Flight::request()->data['organizationID'])){
+                $resourceNote->noteText     = "Provider:  " . Flight::request()->data['providerText'] . "\n\n" . Flight::request()->data['noteText'];
+            }else{
+                $resourceNote->noteText     = Flight::request()->data['noteText'];
+            }
+
+            $resourceNote->save();
+        }
+
+
     } catch (Exception $e) {
         Flight::json(array('error' => $e->getMessage()));
     }
-    $resourceID = $resource->primaryKey;
     Flight::json(array('resourceID' => $resourceID));
 
 });
