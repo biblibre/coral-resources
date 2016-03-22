@@ -299,7 +299,13 @@ class GOKbTools {
             $string.= "getDetails('".$type."','".$gokbID."');";
             $string.= '">';
             //$string .= $this->getResourceName($resource). "</span></td> </tr>";
-            $string .= $this->getResourceName($resource). "</a></td> </tr>";
+
+            // Getting coverage
+            $coverage = $child->{'coverage'};
+            $coverageAttr = $coverage->attributes();
+            $startDate = format_date($coverageAttr['startDate']);
+            $endDate = format_date($coverageAttr['endDate']);
+            $string .= $this->getResourceName($resource). "</a> ($startDate &#8594; $endDate)</td> </tr>";
         }
         
         $string .= "</table>";
