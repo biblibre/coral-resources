@@ -106,17 +106,51 @@ Flight::route('/proposeResource/', function(){
             }
         }
 
-        // add home location note
-        $noteTypeID = createNoteType("Home Location");
-        $resourceNote = new ResourceNote();
-        $resourceNote->resourceNoteID   = '';
-        $resourceNote->updateLoginID    = 'coral';
-        $resourceNote->updateDate       = date( 'Y-m-d' );
-        $resourceNote->noteTypeID       = $noteTypeID;
-        $resourceNote->tabName          = 'Product';
-        $resourceNote->resourceID       = $resourceID;
-        $resourceNote->noteText         = Flight::request()->data['homeLocationNote'];
-        $resourceNote->save();
+        // add home location 
+        foreach (array("homeLocationNote" => "Home Location") as $key => $value) {
+            if (Flight::request()->data[$key]) {
+                $noteTypeID = $value ? createNoteType($value) : '';
+                $resourceNote = new ResourceNote();
+                $resourceNote->resourceNoteID   = '';
+                $resourceNote->updateLoginID    = 'coral';
+                $resourceNote->updateDate       = date( 'Y-m-d' );
+                $resourceNote->noteTypeID       = $noteTypeID;
+                $resourceNote->tabName          = 'Product';
+                $resourceNote->resourceID       = $resourceID;
+                $resourceNote->noteText         = Flight::request()->data[$key];
+                $resourceNote->save();
+            }
+        }
+
+        // add publication year and/or edition
+        foreach (array("publicationYear" => "Publication Year or order start date", "edition" => "Edition") as $key => $value) {
+            if (Flight::request()->data[$key]) {
+                $noteTypeID = '';
+                $resourceNote = new ResourceNote();
+                $resourceNote->resourceNoteID   = '';
+                $resourceNote->updateLoginID    = 'coral';
+                $resourceNote->updateDate       = date( 'Y-m-d' );
+                $resourceNote->noteTypeID       = $noteTypeID;
+                $resourceNote->tabName          = 'Product';
+                $resourceNote->resourceID       = $resourceID;
+                $resourceNote->noteText         = $value . ": " . Flight::request()->data[$key];
+                $resourceNote->save();
+            }
+        }
+
+        // add existing license and/or license required
+        foreach (array("licenseRequired" => "License required?", "existingLicense" => "Existing License?") as $key => $value) {
+            $noteTypeID = createNoteType("License Type");
+            $resourceNote = new ResourceNote();
+            $resourceNote->resourceNoteID   = '';
+            $resourceNote->updateLoginID    = 'coral';
+            $resourceNote->updateDate       = date( 'Y-m-d' );
+            $resourceNote->noteTypeID       = $noteTypeID;
+            $resourceNote->tabName          = 'Access';
+            $resourceNote->resourceID       = $resourceID;
+            $resourceNote->noteText         = $value . " " . Flight::request()->data[$key];
+            $resourceNote->save();
+        }
 
 
     } catch (Exception $e) {

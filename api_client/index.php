@@ -13,7 +13,7 @@ $server = "http://coral.local/resources/api/";
 <h2>Propose a resource</h2>
 <?php
 if ($_POST['submitProposeResourceForm']) {
-    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID", "homeLocationNote");
+    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID", "homeLocationNote", "licenseRequired", "existingLicense", "publicationYear", "edition");
     $headers = array("Accept" => "application/json");
     $body = array();
     foreach ($fieldNames as $fieldName) {
@@ -57,6 +57,13 @@ if ($_POST['submitProposeResourceForm']) {
 <div class="pure-control-group">
 <label for="resourceAltURL">URL Alt: </label><input name="resourceAltURL" type="text" /><br />
 </div>
+<div class="pure-control-group">
+<label for="publicationYear">Publication year or subscription start date: </label><input name="publicationYear" type="text" /><br />
+</div>
+<div class="pure-control-group">
+<label for="edition">Edition: </label><input name="edition" type="text" /><br />
+</div>
+
 </fieldset>
 
 <fieldset>
@@ -78,6 +85,22 @@ if ($_POST['submitProposeResourceForm']) {
 <legend>Library</legend>
 <?php getAdministeringSitesAsCheckBoxes($server); ?>
 </fieldset>
+
+<fieldset>
+<legend>License required?</legend>
+<input type="radio" name="licenseRequired" value="Yes" />Yes
+<input type="radio" name="licenseRequired" value="No" />No
+<input type="radio" name="licenseRequired" value="Don't know" checked="checked" />Don't know
+</fieldset>
+
+<fieldset>
+<legend>Existing license?</legend>
+<input type="radio" name="existingLicense" value="Yes" />Yes
+<input type="radio" name="existingLicense" value="No" />No
+<input type="radio" name="existingLicense" value="Don't know" checked="checked" />Don't know
+</fieldset>
+
+
 
 <fieldset>
 <legend>Home Location</legend>
