@@ -13,7 +13,7 @@ $server = "http://coral.local/resources/api/";
 <h2>Propose a resource</h2>
 <?php
 if ($_POST['submitProposeResourceForm']) {
-    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID", "homeLocationNote", "licenseRequired", "existingLicense", "publicationYear", "edition", "holdLocation", "patronHold");
+    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID", "homeLocationNote", "licenseRequired", "existingLicense", "publicationYear", "edition", "holdLocation", "patronHold", "CMRanking", "subjectCoverage", "audience", "frequency", "access", "contributingFactors", "ripCode");
     $headers = array("Accept" => "application/json");
     $body = array();
     foreach ($fieldNames as $fieldName) {
@@ -70,6 +70,9 @@ if ($_POST['submitProposeResourceForm']) {
 <label for="patronHold">Patron hold (patrons' name, email)</label><input name="patronHold" type="text" /><br />
 </div>
 
+<div class="pure-control-group">
+<label for="ripCode">RIP code (serials)</label><input name="ripCode" type="text" /><br />
+</div>
 
 </fieldset>
 
@@ -128,6 +131,40 @@ if ($_POST['submitProposeResourceForm']) {
 <label for="noteText">Include any additional information</label>
 <textarea name="noteText"></textarea><br />
 </fieldset>
+
+<h2>The following fields are for collection managers' decision use.</h2>
+<fieldset>
+<legend>CM ranking</legend>
+<select name="CMRanking">
+<option value="1">High</option>
+<option value="2">Medium</option>
+<option value="3">Low</option>
+</select>
+
+<div class="pure-control-group">
+<label for="subjectCoverage">Subject coverage: </label><input name="subjectCoverage" type="text" /><br />
+</div>
+
+<div class="pure-control-group">
+<label for="audience">Audience: </label><input name="audience" type="text" /><br />
+</div>
+
+<div class="pure-control-group">
+<label for="frequency">Frequency and language: </label><input name="frequency" type="text" /><br />
+</div>
+
+<div class="pure-control-group">
+<label for="access">Access via indexes: </label><input name="access" type="text" /><br />
+</div>
+
+<div class="pure-control-group">
+<label for="contributingFactors">Contributing factors: </label><input name="contributingFactors" type="text" /><br />
+</div>
+
+</fieldset>
+
+
+
 <input type="submit" name="submitProposeResourceForm" />
 </form>
 <?php

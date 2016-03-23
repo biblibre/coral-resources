@@ -152,6 +152,23 @@ Flight::route('/proposeResource/', function(){
             $resourceNote->save();
         }
 
+        // add CM
+        foreach (array("CMRanking" => "CM Ranking", "subjectCoverage" => "Subject coverage", "audience" => "Audience", "frequency" => "Frequency and language", "access" => "Access via indexes", "contributingFactors" => "Contributing factors", "ripCode" => "RIP code") as $key => $value) {
+            if (Flight::request()->data[$key]) {
+                $noteTypeID = createNoteType("CM Ranking");
+                $resourceNote = new ResourceNote();
+                $resourceNote->resourceNoteID   = '';
+                $resourceNote->updateLoginID    = 'coral';
+                $resourceNote->updateDate       = date( 'Y-m-d' );
+                $resourceNote->noteTypeID       = $noteTypeID;
+                $resourceNote->tabName          = 'Product';
+                $resourceNote->resourceID       = $resourceID;
+                $resourceNote->noteText         = $value . ": " . Flight::request()->data[$key];
+                $resourceNote->save();
+            }
+        }
+
+
 
     } catch (Exception $e) {
         Flight::json(array('error' => $e->getMessage()));
