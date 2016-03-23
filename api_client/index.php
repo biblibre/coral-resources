@@ -13,7 +13,7 @@ $server = "http://coral.local/resources/api/";
 <h2>Propose a resource</h2>
 <?php
 if ($_POST['submitProposeResourceForm']) {
-    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID");
+    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID");
     $headers = array("Accept" => "application/json");
     $body = array();
     foreach ($fieldNames as $fieldName) {
@@ -71,6 +71,10 @@ if ($_POST['submitProposeResourceForm']) {
 <?php getResourceTypesAsRadio($server); ?>
 </fieldset>
 <fieldset>
+<legend>Library</legend>
+<?php getAdministeringSitesAsCheckBoxes($server); ?>
+</fieldset>
+<fieldset>
 <legend>Notes</legend>
 <label for="noteText">Include any additional information</label>
 <textarea name="noteText"></textarea><br />
@@ -101,6 +105,14 @@ function getResourceFormatsAsRadio($server) {
         echo ' <input type="radio" name="resourceFormatID" value="' . $resourceType->resourceFormatID . '">' . $resourceType->shortName;
     }
 }
+
+function getAdministeringSitesAsCheckBoxes($server) {
+    $response = Unirest\Request::post($server . "getAdministeringSites/", $headers, $body);
+    foreach ($response->body as $resourceType) {
+        echo ' <input type="checkbox" name="administeringSiteID[]" value="' . $resourceType->administeringSiteID . '">' . $resourceType->shortName;
+    }
+}
+
 
 
 ?>

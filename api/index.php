@@ -15,6 +15,8 @@ include_once '../admin/classes/domain/AcquisitionType.php';
 include_once '../admin/classes/domain/ResourceFormat.php';
 include_once '../admin/classes/domain/NoteType.php';
 include_once '../admin/classes/domain/ResourceNote.php';
+include_once '../admin/classes/domain/AdministeringSite.php';
+include_once '../admin/classes/domain/ResourceAdministeringSiteLink.php';
 
 if (!isAllowed()) {
     header('HTTP/1.0 403 Forbidden');
@@ -23,6 +25,7 @@ if (!isAllowed()) {
 }
 
 Flight::route('/proposeResource/', function(){
+
     $resource = new Resource();
     $resource->createDate = date( 'Y-m-d' );
     $resource->createLoginID = 'coral';
@@ -89,6 +92,19 @@ Flight::route('/proposeResource/', function(){
             $resourceNote->save();
         }
 
+        //add administering site
+        foreach (Flight::request()->data['administeringSiteID'] as $administeringSiteID) {
+            $resourceAdministeringSiteLink = new ResourceAdministeringSiteLink();
+            $resourceAdministeringSiteLink->resourceID = $resourceID;
+            $resourceAdministeringSiteLink->administeringSiteID = $administeringSiteID;
+            try {
+                $resourceAdministeringSiteLink->save();
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        }
+
+
 
     } catch (Exception $e) {
         Flight::json(array('error' => $e->getMessage()));
@@ -118,6 +134,13 @@ Flight::route('/getResourceFormats/', function() {
    $resourceFormatArray = $resourceFormatObj->sortedArray();
     Flight::json($resourceFormatArray);
 });
+
+Flight::route('/getAdministeringSites/', function() {
+   $as = new AdministeringSite();
+   $asArray = $as->allAsArray();
+    Flight::json($asArray);
+});
+
 
 Flight::start();
 
