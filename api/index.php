@@ -123,7 +123,7 @@ Flight::route('/proposeResource/', function(){
         }
 
         // add publication year and/or edition
-        foreach (array("publicationYear" => "Publication Year or order start date", "edition" => "Edition") as $key => $value) {
+        foreach (array("publicationYear" => "Publication Year or order start date", "edition" => "Edition", "holdLocation" => "Hold location", "patronHold" => "Patron hold") as $key => $value) {
             if (Flight::request()->data[$key]) {
                 $noteTypeID = '';
                 $resourceNote = new ResourceNote();

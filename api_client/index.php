@@ -13,7 +13,7 @@ $server = "http://coral.local/resources/api/";
 <h2>Propose a resource</h2>
 <?php
 if ($_POST['submitProposeResourceForm']) {
-    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID", "homeLocationNote", "licenseRequired", "existingLicense", "publicationYear", "edition");
+    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID", "homeLocationNote", "licenseRequired", "existingLicense", "publicationYear", "edition", "holdLocation", "patronHold");
     $headers = array("Accept" => "application/json");
     $body = array();
     foreach ($fieldNames as $fieldName) {
@@ -63,6 +63,13 @@ if ($_POST['submitProposeResourceForm']) {
 <div class="pure-control-group">
 <label for="edition">Edition: </label><input name="edition" type="text" /><br />
 </div>
+<div class="pure-control-group">
+<label for="holdLocation">Hold location (patron pickup library for item held)</label><input name="holdLocation" type="text" /><br />
+</div>
+<div class="pure-control-group">
+<label for="patronHold">Patron hold (patrons' name, email)</label><input name="patronHold" type="text" /><br />
+</div>
+
 
 </fieldset>
 
