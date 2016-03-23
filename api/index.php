@@ -66,7 +66,7 @@ Flight::route('/proposeResource/', function(){
     try {
         $resource->save();
         $resourceID = $resource->primaryKey;
-        //add notes
+        //add note
         if ((Flight::request()->data['noteText']) || ((Flight::request()->data['providerText']) && (!Flight::request()->data['organizationID']))){
             //first, remove existing notes in case this was saved before
             $resource->removeResourceNotes();
@@ -104,6 +104,17 @@ Flight::route('/proposeResource/', function(){
             }
         }
 
+        // add home location note
+        $noteTypeID = createNoteType("Home Location");
+        $resourceNote = new ResourceNote();
+        $resourceNote->resourceNoteID   = '';
+        $resourceNote->updateLoginID    = 'coral';
+        $resourceNote->updateDate       = date( 'Y-m-d' );
+        $resourceNote->noteTypeID       = $noteTypeID;
+        $resourceNote->tabName          = 'Product';
+        $resourceNote->resourceID       = $resourceID;
+        $resourceNote->noteText         = Flight::request()->data['homeLocationNote'];
+        $resourceNote->save();
 
 
     } catch (Exception $e) {
@@ -164,5 +175,17 @@ function isAllowed() {
 function IpFilter($var) {
     $pos = strpos($_SERVER['REMOTE_ADDR'], $var);
     return $pos === false ? false : true;
+}
+
+// Create a note type if it doesn't exist
+// Return noteTypeID
+function createNoteType($name) {
+    $noteType = new NoteType();
+    $noteTypeID = $noteType->getNoteTypeIDByName($name);
+    if ($noteTypeID) return $noteTypeID;
+
+    $noteType->shortName = $name;
+    $noteType->save();
+    return $noteType->noteTypeID;
 }
 ?>

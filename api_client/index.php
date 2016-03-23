@@ -13,7 +13,7 @@ $server = "http://coral.local/resources/api/";
 <h2>Propose a resource</h2>
 <?php
 if ($_POST['submitProposeResourceForm']) {
-    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID");
+    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID", "homeLocationNote");
     $headers = array("Accept" => "application/json");
     $body = array();
     foreach ($fieldNames as $fieldName) {
@@ -58,22 +58,41 @@ if ($_POST['submitProposeResourceForm']) {
 <label for="resourceAltURL">URL Alt: </label><input name="resourceAltURL" type="text" /><br />
 </div>
 </fieldset>
+
 <fieldset>
 <legend>Format</legend>
 <?php getResourceFormatsAsRadio($server); ?>
 </fieldset>
+
 <fieldset>
 <legend>Acquisition Type</legend>
 <?php getAcquisitionTypesAsRadio($server); ?>
 </fieldset>
+
 <fieldset>
 <legend>Resource Type</legend>
 <?php getResourceTypesAsRadio($server); ?>
 </fieldset>
+
 <fieldset>
 <legend>Library</legend>
 <?php getAdministeringSitesAsCheckBoxes($server); ?>
 </fieldset>
+
+<fieldset>
+<legend>Home Location</legend>
+<select name="homeLocationNote">
+<option value="Stacks">Stacks</option>
+<option value="References">References</option>
+<option value="Reserves">Reserves</option>
+<option value="Online">Online</option>
+<option value="Teach DVD">Teach DVD</option>
+<option value="Circulating DVD">Circulating DVD</option>
+<option value="Media (Branch)">Media (Branch)</option>
+<option value="Other">Other (please specify it in Notes)</option>
+</select>
+</fieldset>
+
 <fieldset>
 <legend>Notes</legend>
 <label for="noteText">Include any additional information</label>
