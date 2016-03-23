@@ -93,14 +93,16 @@ Flight::route('/proposeResource/', function(){
         }
 
         //add administering site
-        foreach (Flight::request()->data['administeringSiteID'] as $administeringSiteID) {
-            $resourceAdministeringSiteLink = new ResourceAdministeringSiteLink();
-            $resourceAdministeringSiteLink->resourceID = $resourceID;
-            $resourceAdministeringSiteLink->administeringSiteID = $administeringSiteID;
-            try {
-                $resourceAdministeringSiteLink->save();
-            } catch (Exception $e) {
-                echo $e->getMessage();
+        if (Flight::request()->data['administeringSiteID']) {
+            foreach (Flight::request()->data['administeringSiteID'] as $administeringSiteID) {
+                $resourceAdministeringSiteLink = new ResourceAdministeringSiteLink();
+                $resourceAdministeringSiteLink->resourceID = $resourceID;
+                $resourceAdministeringSiteLink->administeringSiteID = $administeringSiteID;
+                try {
+                    $resourceAdministeringSiteLink->save();
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
             }
         }
 
