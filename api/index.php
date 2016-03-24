@@ -15,6 +15,7 @@ include_once '../admin/classes/domain/AcquisitionType.php';
 include_once '../admin/classes/domain/ResourceFormat.php';
 include_once '../admin/classes/domain/NoteType.php';
 include_once '../admin/classes/domain/ResourceNote.php';
+include_once '../admin/classes/domain/ResourcePayment.php';
 include_once '../admin/classes/domain/AdministeringSite.php';
 include_once '../admin/classes/domain/ResourceAdministeringSiteLink.php';
 
@@ -168,6 +169,16 @@ Flight::route('/proposeResource/', function(){
             }
         }
 
+        // add fund and cost
+        if (Flight::request()->data['cost'] && Flight::request()->data['fund']) {
+            $rp = new ResourcePayment();
+            $rp->resourceID = $resourceID;
+            $rp->fundName = Flight::request()->data['fund'];
+            $rp->paymentAmount = cost_to_integer(Flight::request()->data['cost']);
+            $rp->currencyCode = 'USD';
+            $rp->orderTypeID = 2;
+            $rp->save();
+        }
 
 
     } catch (Exception $e) {

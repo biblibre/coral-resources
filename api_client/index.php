@@ -13,7 +13,7 @@ $server = "http://coral.local/resources/api/";
 <h2>Propose a resource</h2>
 <?php
 if ($_POST['submitProposeResourceForm']) {
-    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID", "homeLocationNote", "licenseRequired", "existingLicense", "publicationYear", "edition", "holdLocation", "patronHold", "CMRanking", "subjectCoverage", "audience", "frequency", "access", "contributingFactors", "ripCode");
+    $fieldNames = array("titleText", "descriptionText", "providerText", "resourceURL", "resourceAltURL", "noteText", "resourceTypeID", "resourceFormatID", "acquisitionTypeID", "administeringSiteID", "homeLocationNote", "licenseRequired", "existingLicense", "publicationYear", "edition", "holdLocation", "patronHold", "CMRanking", "subjectCoverage", "audience", "frequency", "access", "contributingFactors", "ripCode", "fund", "cost");
     $headers = array("Accept" => "application/json");
     $body = array();
     foreach ($fieldNames as $fieldName) {
@@ -69,11 +69,15 @@ if ($_POST['submitProposeResourceForm']) {
 <div class="pure-control-group">
 <label for="patronHold">Patron hold (patrons' name, email)</label><input name="patronHold" type="text" /><br />
 </div>
-
 <div class="pure-control-group">
 <label for="ripCode">RIP code (serials)</label><input name="ripCode" type="text" /><br />
 </div>
-
+<div class="pure-control-group">
+<label for="fund">Fund</label><input name="fund" type="text" /><br />
+</div>
+<div class="pure-control-group">
+<label for="cost">Cost</label><input name="cost" type="text" /><br />
+</div>
 </fieldset>
 
 <fieldset>
