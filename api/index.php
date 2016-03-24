@@ -97,6 +97,7 @@ Flight::route('/proposeResource/', function(){
         if (Flight::request()->data['administeringSiteID']) {
             foreach (Flight::request()->data['administeringSiteID'] as $administeringSiteID) {
                 $resourceAdministeringSiteLink = new ResourceAdministeringSiteLink();
+                $resourceAdministeringSiteLink->resourceAdministeringSiteLinkID = '';
                 $resourceAdministeringSiteLink->resourceID = $resourceID;
                 $resourceAdministeringSiteLink->administeringSiteID = $administeringSiteID;
                 try {
@@ -110,7 +111,8 @@ Flight::route('/proposeResource/', function(){
         // add home location 
         foreach (array("homeLocationNote" => "Home Location") as $key => $value) {
             if (Flight::request()->data[$key]) {
-                $noteTypeID = $value ? createNoteType($value) : '';
+                $noteType = new NoteType();
+                $noteTypeID = $value ? createNoteType($value) : $noteType->getInitialNoteTypeID();
                 $resourceNote = new ResourceNote();
                 $resourceNote->resourceNoteID   = '';
                 $resourceNote->updateLoginID    = 'coral';
@@ -126,7 +128,8 @@ Flight::route('/proposeResource/', function(){
         // add publication year and/or edition
         foreach (array("publicationYear" => "Publication Year or order start date", "edition" => "Edition", "holdLocation" => "Hold location", "patronHold" => "Patron hold") as $key => $value) {
             if (Flight::request()->data[$key]) {
-                $noteTypeID = '';
+                $noteType = new NoteType();
+                $noteTypeID = $noteType->getInitialNoteTypeID();
                 $resourceNote = new ResourceNote();
                 $resourceNote->resourceNoteID   = '';
                 $resourceNote->updateLoginID    = 'coral';
@@ -172,6 +175,14 @@ Flight::route('/proposeResource/', function(){
         // add fund and cost
         if (Flight::request()->data['cost'] && Flight::request()->data['fund']) {
             $rp = new ResourcePayment();
+            $rp->resourcePaymentID = ''; 
+            $rp->selectorLoginID = 'coral'; 
+            $rp->year = ''; 
+            $rp->subscriptionStartDate = ''; 
+            $rp->subscriptionEndDate = ''; 
+            $rp->costDetailsID = ''; 
+            $rp->costNote = ''; 
+            $rp->invoiceNum = ''; 
             $rp->resourceID = $resourceID;
             $rp->fundName = Flight::request()->data['fund'];
             $rp->paymentAmount = cost_to_integer(Flight::request()->data['cost']);
@@ -249,6 +260,7 @@ function createNoteType($name) {
     if ($noteTypeID) return $noteTypeID;
 
     $noteType->shortName = $name;
+    $noteType->noteTypeID = '';
     $noteType->save();
     return $noteType->noteTypeID;
 }
