@@ -303,9 +303,17 @@ class GOKbTools {
             // Getting coverage
             $coverage = $child->{'coverage'};
             $coverageAttr = $coverage->attributes();
-            $startDate = format_date($coverageAttr['startDate']);
-            $endDate = format_date($coverageAttr['endDate']);
-            $string .= $this->getResourceName($resource). "</a> ($startDate &#8594; $endDate)</td> </tr>";
+            $startDate = $coverageAttr['startDate'] != '' ? format_date($coverageAttr['startDate']) : null;
+            $endDate = $coverageAttr['endDate'] != '' ? format_date($coverageAttr['endDate']) : null;
+            $string .= $this->getResourceName($resource). "</a>"; 
+            if ($startDate && $endDate) {
+                $string .= " ($startDate &#8594; $endDate)";
+            } elseif ($startDate) {
+                $string .= " (start: $startDate)";
+            } elseif ($endDate) {
+                $string .= " (end: $endDate)";
+            }
+            $string .= "</td> </tr>";
         }
         
         $string .= "</table>";
