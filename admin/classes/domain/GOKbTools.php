@@ -326,42 +326,59 @@ class GOKbTools {
     }
 
     function displayExistingRecords($record, $type) {
-        if ($type != "title") return;
-
         $resourceObj = new Resource();
-
-        // Checking identifiers first
-        
-        $identifiers = $this->getIdentifiersAsArray($record);
-        if ($identifiers) {
-            $resource = $resourceObj->getResourceByIdentifiers($identifiers);
-            if ($resource) {
-                echo "This resource already exists " . count($resource) . " times in Coral (found by identifier). It can be found in the following packages:";
-            foreach ($resource as $oneResource) {
-                $this->displayParentResources($oneResource);
+        if ($type != "title") {
+            $gokbCount = 0;
+            $coralCount = 0;
+            $tipps=$record->{'TIPPs'};
+            foreach ($tipps->children() as $child) {
+                $record = $child->{'title'};
+                $identifiers = $this->getIdentifiersAsArray($record);
+                if ($identifiers) {
+                    $resources = $resourceObj->getResourceByIdentifiers($identifiers);
+                    $gokbCount++;
+                    $coralCount += count($resources);
+                }
             }
+            echo "$coralCount coral resources matches the $gokbCount gokb records of this package";
+
+        } else {
+
+
+            // Checking identifiers first
+            
+            $identifiers = $this->getIdentifiersAsArray($record);
+            if ($identifiers) {
+                $resource = $resourceObj->getResourceByIdentifiers($identifiers);
+                if ($resource) {
+                    echo "This resource already exists " . count($resource) . " times in Coral (found by identifier). It can be found in the following packages:";
+                foreach ($resource as $oneResource) {
+                    $this->displayParentResources($oneResource);
+                }
+                    return;
+                }
+            }
+
+            // Then name
+            $name = $this->getResourceName($record);
+            $resource = $resourceObj->getResourceByTitle($name);
+            if ($resource) {
+                echo "This resource already exists " . count($resource) . " time in Coral (found by title). It can be found in the following packages:";
+                foreach ($resource as $oneResource) {
+                    $this->displayParentResources($oneResource);
+                }
                 return;
             }
-        }
 
-        // Then name
-        $name = $this->getResourceName($record);
-        $resource = $resourceObj->getResourceByTitle($name);
-        if ($resource) {
-            echo "This resource already exists " . count($resource) . " time in Coral (found by title). It can be found in the following packages:";
-            foreach ($resource as $oneResource) {
-                $this->displayParentResources($oneResource);
+
+            if ($found) {
+
+                return;
             }
-            return;
+
+            echo "This resource doesn't exist in Coral";
+
         }
-
-
-        if ($found) {
-
-            return;
-        }
-
-        echo "This resource doesn't exist in Coral";
     }
 
     function displayParentResources($resource) {
