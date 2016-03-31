@@ -156,8 +156,8 @@ Flight::route('/proposeResource/', function(){
             $resourceNote->save();
         }
 
-        // add CM
-        foreach (array("CMRanking" => "CM Ranking", "subjectCoverage" => "Subject coverage", "audience" => "Audience", "frequency" => "Frequency and language", "access" => "Access via indexes", "contributingFactors" => "Contributing factors", "ripCode" => "RIP code") as $key => $value) {
+        // add CM Ranking
+        foreach (array("CMRanking" => "CM Ranking", "ripCode" => "RIP code") as $key => $value) {
             if (Flight::request()->data[$key]) {
                 $noteTypeID = createNoteType("CM Ranking");
                 $resourceNote = new ResourceNote();
@@ -171,6 +171,23 @@ Flight::route('/proposeResource/', function(){
                 $resourceNote->save();
             }
         }
+
+        // add CM Important Factor
+        foreach (array("subjectCoverage" => "Subject coverage", "audience" => "Audience", "frequency" => "Frequency and language", "access" => "Access via indexes", "contributingFactors" => "Contributing factors") as $key => $value) {
+            if (Flight::request()->data[$key]) {
+                $noteTypeID = createNoteType("CM Important Factor");
+                $resourceNote = new ResourceNote();
+                $resourceNote->resourceNoteID   = '';
+                $resourceNote->updateLoginID    = 'coral';
+                $resourceNote->updateDate       = date( 'Y-m-d' );
+                $resourceNote->noteTypeID       = $noteTypeID;
+                $resourceNote->tabName          = 'Product';
+                $resourceNote->resourceID       = $resourceID;
+                $resourceNote->noteText         = $value . ": " . Flight::request()->data[$key];
+                $resourceNote->save();
+            }
+        }
+
 
         // add fund and cost
         if (Flight::request()->data['cost'] && Flight::request()->data['fund']) {

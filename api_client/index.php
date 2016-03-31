@@ -168,7 +168,7 @@ if ($_POST['submitProposeResourceForm']) {
 </fieldset>
 
 
-
+<a href="javascript:window.print();">Print view</a> - 
 <input type="submit" name="submitProposeResourceForm" />
 </form>
 <?php
