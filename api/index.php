@@ -67,31 +67,6 @@ Flight::route('/proposeResource/', function(){
     try {
         $resource->save();
         $resourceID = $resource->primaryKey;
-        //add note
-        if ((Flight::request()->data['noteText']) || ((Flight::request()->data['providerText']) && (!Flight::request()->data['organizationID']))){
-            //first, remove existing notes in case this was saved before
-            $resource->removeResourceNotes();
-
-            //this is just to figure out what the creator entered note type ID is
-            $noteType = new NoteType();
-
-            $resourceNote = new ResourceNote();
-            $resourceNote->resourceNoteID   = '';
-            $resourceNote->updateLoginID    = 'coral';
-            $resourceNote->updateDate       = date( 'Y-m-d' );
-            $resourceNote->noteTypeID       = $noteType->getInitialNoteTypeID();
-            $resourceNote->tabName          = 'Product';
-            $resourceNote->resourceID       = $resourceID;
-
-            //only insert provider as note if it's been submitted
-            if ((Flight::request()->data['providerText']) && (!Flight::request()->data['organizationID'])){
-                $resourceNote->noteText     = "Provider:  " . Flight::request()->data['providerText'] . "\n\n" . Flight::request()->data['noteText'];
-            }else{
-                $resourceNote->noteText     = Flight::request()->data['noteText'];
-            }
-
-            $resourceNote->save();
-        }
 
         //add administering site
         if (Flight::request()->data['administeringSiteID']) {
@@ -108,8 +83,8 @@ Flight::route('/proposeResource/', function(){
             }
         }
 
-        // add home location 
-        foreach (array("homeLocationNote" => "Home Location") as $key => $value) {
+        // add home location && note 
+        foreach (array("homeLocationNote" => "Home Location", "noteText" => null) as $key => $value) {
             if (Flight::request()->data[$key]) {
                 $noteType = new NoteType();
                 $noteTypeID = $value ? createNoteType($value) : $noteType->getInitialNoteTypeID();
@@ -125,21 +100,26 @@ Flight::route('/proposeResource/', function(){
             }
         }
 
-        // add publication year and/or edition
-        foreach (array("publicationYear" => "Publication Year or order start date", "edition" => "Edition", "holdLocation" => "Hold location", "patronHold" => "Patron hold") as $key => $value) {
+        // General notes
+        $noteText = '';
+        foreach (array("providerText" => "Provider", "publicationYear" => "Publication Year or order start date", "edition" => "Edition", "holdLocation" => "Hold location", "patronHold" => "Patron hold") as $key => $value) {
             if (Flight::request()->data[$key]) {
-                $noteType = new NoteType();
-                $noteTypeID = $noteType->getInitialNoteTypeID();
-                $resourceNote = new ResourceNote();
-                $resourceNote->resourceNoteID   = '';
-                $resourceNote->updateLoginID    = 'coral';
-                $resourceNote->updateDate       = date( 'Y-m-d' );
-                $resourceNote->noteTypeID       = $noteTypeID;
-                $resourceNote->tabName          = 'Product';
-                $resourceNote->resourceID       = $resourceID;
-                $resourceNote->noteText         = $value . ": " . Flight::request()->data[$key];
-                $resourceNote->save();
+                $noteText .= $value . ": " . Flight::request()->data[$key] . "\n";
             }
+
+        }
+        if ($noteText) {
+            $noteType = new NoteType();
+            $noteTypeID = $noteType->getInitialNoteTypeID();
+            $resourceNote = new ResourceNote();
+            $resourceNote->resourceNoteID   = '';
+            $resourceNote->updateLoginID    = 'coral';
+            $resourceNote->updateDate       = date( 'Y-m-d' );
+            $resourceNote->noteTypeID       = $noteTypeID;
+            $resourceNote->tabName          = 'Product';
+            $resourceNote->resourceID       = $resourceID;
+            $resourceNote->noteText         = $noteText;
+            $resourceNote->save();
         }
 
         // add existing license and/or license required
@@ -173,21 +153,24 @@ Flight::route('/proposeResource/', function(){
         }
 
         // add CM Important Factor
+        $noteText = '';
         foreach (array("subjectCoverage" => "Subject coverage", "audience" => "Audience", "frequency" => "Frequency and language", "access" => "Access via indexes", "contributingFactors" => "Contributing factors") as $key => $value) {
             if (Flight::request()->data[$key]) {
-                $noteTypeID = createNoteType("CM Important Factor");
-                $resourceNote = new ResourceNote();
-                $resourceNote->resourceNoteID   = '';
-                $resourceNote->updateLoginID    = 'coral';
-                $resourceNote->updateDate       = date( 'Y-m-d' );
-                $resourceNote->noteTypeID       = $noteTypeID;
-                $resourceNote->tabName          = 'Product';
-                $resourceNote->resourceID       = $resourceID;
-                $resourceNote->noteText         = $value . ": " . Flight::request()->data[$key];
-                $resourceNote->save();
+                $noteText .= $value . ": " . Flight::request()->data[$key] . "\n";
             }
         }
-
+        if ($noteText) {
+            $noteTypeID = createNoteType("CM Important Factor");
+            $resourceNote = new ResourceNote();
+            $resourceNote->resourceNoteID   = '';
+            $resourceNote->updateLoginID    = 'coral';
+            $resourceNote->updateDate       = date( 'Y-m-d' );
+            $resourceNote->noteTypeID       = $noteTypeID;
+            $resourceNote->tabName          = 'Product';
+            $resourceNote->resourceID       = $resourceID;
+            $resourceNote->noteText         = $noteText;
+            $resourceNote->save();
+        }
 
         // add fund and cost
         if (Flight::request()->data['cost'] && Flight::request()->data['fund']) {
