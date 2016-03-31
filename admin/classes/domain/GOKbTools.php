@@ -2,6 +2,8 @@
 
 require 'vendor/autoload.php';
 include_once "admin/classes/domain/MyClient.php";
+include_once "admin/classes/domain/Resource.php";
+include_once "admin/classes/domain/ResourceRelationship.php";
 
 use Phpoaipmh\Client,
     Phpoaipmh\Endpoint,
@@ -319,6 +321,88 @@ class GOKbTools {
         $string .= "</table>";
         
            return $string;
+    }
+
+    function getIdentifiersAsArray($record) {
+        $identifiersArray = array();
+        $identifiers = $record->{'identifiers'};
+        foreach ($identifiers->children() as $child) {
+            if ($child->getName() == 'identifier') {
+                $i = -1;
+                foreach ($child->attributes() as $key => $value) {
+                    $i++;
+                    if ($i % 2 == 0) continue;
+                    array_push($identifiersArray, (string) $value);
+                }
+            }
+        }
+        return $identifiersArray;
+    }
+
+    function displayExistingRecords($record, $type) {
+        $resourceObj = new Resource();
+        if ($type != "title") {
+            $gokbCount = 0;
+            $coralCount = 0;
+            $tipps=$record->{'TIPPs'};
+            foreach ($tipps->children() as $child) {
+                $record = $child->{'title'};
+                $identifiers = $this->getIdentifiersAsArray($record);
+                if ($identifiers) {
+                    $resources = $resourceObj->getResourceByIdentifiers($identifiers);
+                    $gokbCount++;
+                    $coralCount += count($resources);
+                }
+            }
+            echo "$coralCount coral resources matches the $gokbCount gokb records of this package";
+
+        } else {
+
+
+            // Checking identifiers first
+            
+            $identifiers = $this->getIdentifiersAsArray($record);
+            if ($identifiers) {
+                $resource = $resourceObj->getResourceByIdentifiers($identifiers);
+                if ($resource) {
+                    echo "This resource already exists " . count($resource) . " times in Coral (found by identifier). It can be found in the following packages:";
+                foreach ($resource as $oneResource) {
+                    $this->displayParentResources($oneResource);
+                }
+                    return;
+                }
+            }
+
+            // Then name
+            $name = $this->getResourceName($record);
+            $resource = $resourceObj->getResourceByTitle($name);
+            if ($resource) {
+                echo "This resource already exists " . count($resource) . " time in Coral (found by title). It can be found in the following packages:";
+                foreach ($resource as $oneResource) {
+                    $this->displayParentResources($oneResource);
+                }
+                return;
+            }
+
+
+            if ($found) {
+
+                return;
+            }
+
+            echo "This resource doesn't exist in Coral";
+
+        }
+    }
+
+    function displayParentResources($resource) {
+        $parents = $resource->getParentResources();
+        echo "<ul>";
+        foreach ($parents as $relationship) {
+            $parentResource = new Resource(new NamedArguments(array('primaryKey' => "$relationship->relatedResourceID")));
+            echo "<li>" . $parentResource->titleText . "</li>";
+        }
+        echo "</ul>";
     }
 // -------------------------------------------------------------------------
     /**

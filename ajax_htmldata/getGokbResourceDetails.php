@@ -40,6 +40,7 @@ $displayTippsTab = ($nbTipps > 0);
                         echo "</li>";
                   }
                   ?>
+                  <li id='existingDetails' onclick="loadDetailsContent(2);">Existing</li>
             </ul>
       </div>
 
@@ -59,6 +60,9 @@ $displayTippsTab = ($nbTipps > 0);
                         ?>
                   </div>
             <?php } ?>
+            <div id="existingDet" class="invisible">
+            <?php echo $tool->displayExistingRecords($record, $_POST['type']); ?>
+            </div>
       </div>
       <?php if ($displayTippsTab) { ?>
             <div id="paginationDiv" class="invisible">
