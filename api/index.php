@@ -18,6 +18,7 @@ include_once '../admin/classes/domain/ResourceNote.php';
 include_once '../admin/classes/domain/ResourcePayment.php';
 include_once '../admin/classes/domain/AdministeringSite.php';
 include_once '../admin/classes/domain/ResourceAdministeringSiteLink.php';
+include_once '../admin/classes/domain/User.php';
 
 if (!isAllowed()) {
     header('HTTP/1.0 403 Forbidden');
@@ -27,9 +28,11 @@ if (!isAllowed()) {
 
 Flight::route('/proposeResource/', function(){
 
+    $user = userExists(Flight::request()->data['user']) ? Flight::request()->data['user'] : 'API';
+
     $resource = new Resource();
     $resource->createDate = date( 'Y-m-d' );
-    $resource->createLoginID = 'coral';
+    $resource->createLoginID = $user;
     $resource->statusID = 1;
     $resource->updateDate                   = '';
     $resource->updateLoginID                = '';
@@ -90,7 +93,7 @@ Flight::route('/proposeResource/', function(){
                 $noteTypeID = $value ? createNoteType($value) : $noteType->getInitialNoteTypeID();
                 $resourceNote = new ResourceNote();
                 $resourceNote->resourceNoteID   = '';
-                $resourceNote->updateLoginID    = 'coral';
+                $resourceNote->updateLoginID    = $user;
                 $resourceNote->updateDate       = date( 'Y-m-d' );
                 $resourceNote->noteTypeID       = $noteTypeID;
                 $resourceNote->tabName          = 'Product';
@@ -113,7 +116,7 @@ Flight::route('/proposeResource/', function(){
             $noteTypeID = $noteType->getInitialNoteTypeID();
             $resourceNote = new ResourceNote();
             $resourceNote->resourceNoteID   = '';
-            $resourceNote->updateLoginID    = 'coral';
+            $resourceNote->updateLoginID    = $user;
             $resourceNote->updateDate       = date( 'Y-m-d' );
             $resourceNote->noteTypeID       = $noteTypeID;
             $resourceNote->tabName          = 'Product';
@@ -127,7 +130,7 @@ Flight::route('/proposeResource/', function(){
             $noteTypeID = createNoteType("License Type");
             $resourceNote = new ResourceNote();
             $resourceNote->resourceNoteID   = '';
-            $resourceNote->updateLoginID    = 'coral';
+            $resourceNote->updateLoginID    = $user;
             $resourceNote->updateDate       = date( 'Y-m-d' );
             $resourceNote->noteTypeID       = $noteTypeID;
             $resourceNote->tabName          = 'Access';
@@ -142,7 +145,7 @@ Flight::route('/proposeResource/', function(){
                 $noteTypeID = createNoteType("CM Ranking");
                 $resourceNote = new ResourceNote();
                 $resourceNote->resourceNoteID   = '';
-                $resourceNote->updateLoginID    = 'coral';
+                $resourceNote->updateLoginID    = $user;
                 $resourceNote->updateDate       = date( 'Y-m-d' );
                 $resourceNote->noteTypeID       = $noteTypeID;
                 $resourceNote->tabName          = 'Product';
@@ -163,7 +166,7 @@ Flight::route('/proposeResource/', function(){
             $noteTypeID = createNoteType("CM Important Factor");
             $resourceNote = new ResourceNote();
             $resourceNote->resourceNoteID   = '';
-            $resourceNote->updateLoginID    = 'coral';
+            $resourceNote->updateLoginID    = $user;
             $resourceNote->updateDate       = date( 'Y-m-d' );
             $resourceNote->noteTypeID       = $noteTypeID;
             $resourceNote->tabName          = 'Product';
@@ -176,7 +179,7 @@ Flight::route('/proposeResource/', function(){
         if (Flight::request()->data['cost'] && Flight::request()->data['fund']) {
             $rp = new ResourcePayment();
             $rp->resourcePaymentID = ''; 
-            $rp->selectorLoginID = 'coral'; 
+            $rp->selectorLoginID = $user; 
             $rp->year = ''; 
             $rp->subscriptionStartDate = ''; 
             $rp->subscriptionEndDate = ''; 
@@ -263,5 +266,10 @@ function createNoteType($name) {
     $noteType->noteTypeID = '';
     $noteType->save();
     return $noteType->noteTypeID;
+}
+
+function userExists($user) {
+    $createUser = new User(new NamedArguments(array('primaryKey' => $user)));
+    return $createUser->loginID ? true : false;
 }
 ?>
