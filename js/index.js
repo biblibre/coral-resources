@@ -76,6 +76,13 @@ $(document).ready(function(){
 		return false;
 	});
 
+	//for performing excel output
+	$(document).on('click', "#export_kbart", function () {
+		window.open('export.php?format=kbart');
+		return false;
+	});
+
+
 	$("#searchResourceIDButton").click(function () {
 		searchValidResource();
 		return false;

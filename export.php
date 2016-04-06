@@ -21,7 +21,7 @@
 session_start();
 
 include_once 'directory.php';
-include_once 'util.php';
+//include_once 'util.php';
 
 function escape_csv($value) {
   // replace \n with \r\n
@@ -55,59 +55,81 @@ header("Pragma: public");
 header("Content-type: text/csv");
 header("Content-Disposition: attachment; filename=\"" . $excelfile . "\"");
 
-$columnHeaders = array(
-  "Record ID",
-  "Name",
-  "Type",
-  "Format",
-  "Date Created",
-  "User Created",
-  "Date Updated",
-  "User Updated",
-  "Status",
-  "ISSN/ISBN",
-  "Resource URL",
-  "Alt URL",  
-  "Organizations",
-  "Aliases",
-  "Parent Record",
-  "Child Record",
-  "Acquisition Type",
-  "Cost",
-  "Order Number",
-  "System Number",
-  "Purchasing Sites",
-  "Sub Start",
-  "Current Sub End",
-  "Subscription Alert Enabled",
-  "License Names",
-  "License Status",
-  "Authorized Sites",
-  "Administering Sites",
-  "Authentication Type",
-  "Access Method",
-  "Storage Location",
-  "Simultaneous User Limit",
-  "Coverage",
-  "Username",
-  "Password",
-  "Cataloging Type",
-  "Cataloging Status",
-  "Catalog Record Set Identifier",
-  "Catalog Record Source URL",
-  "Catalog Records Available",
-  "Catalog Records Loaded",
-  "OCLC Holdings Updated"
-);
-
 echo array_to_csv_row(array("Resource Record Export " . format_date( date( 'Y-m-d' ))));
 if (!$searchDisplay) {
   $searchDisplay = array("All Resource Records");
 }
 echo array_to_csv_row(array(implode('; ', $searchDisplay)));
-echo array_to_csv_row($columnHeaders);
 
-foreach($resourceArray as $resource) {
+
+if ($_GET['format'] && $_GET['format'] == 'kbart') {
+    $columnHeaders = array(
+      "title_id",
+      "publication_title",
+      "print_identifier",
+      "title_url",
+      "publisher_name",
+    );
+    echo array_to_csv_row($columnHeaders);
+    foreach($resourceArray as $resource) {
+        $updateDateFormatted=normalize_date($resource['updateDate']);
+        $resourceValues = array(
+            $resource['resourceID'],
+            $resource['titleText'],
+            $resource['identifier'],
+            $resource['resourceURL'],
+            $resource['organizationNames'],
+        );
+        echo array_to_csv_row($resourceValues);
+    }
+
+} else {
+    $columnHeaders = array(
+      "Record ID",
+      "Name",
+      "Type",
+      "Format",
+      "Date Created",
+      "User Created",
+      "Date Updated",
+      "User Updated",
+      "Status",
+      "ISSN/ISBN",
+      "Resource URL",
+      "Alt URL",  
+      "Organizations",
+      "Aliases",
+      "Parent Record",
+      "Child Record",
+      "Acquisition Type",
+      "Cost",
+      "Order Number",
+      "System Number",
+      "Purchasing Sites",
+      "Sub Start",
+      "Current Sub End",
+      "Subscription Alert Enabled",
+      "License Names",
+      "License Status",
+      "Authorized Sites",
+      "Administering Sites",
+      "Authentication Type",
+      "Access Method",
+      "Storage Location",
+      "Simultaneous User Limit",
+      "Coverage",
+      "Username",
+      "Password",
+      "Cataloging Type",
+      "Cataloging Status",
+      "Catalog Record Set Identifier",
+      "Catalog Record Source URL",
+      "Catalog Records Available",
+      "Catalog Records Loaded",
+      "OCLC Holdings Updated"
+    );
+    echo array_to_csv_row($columnHeaders);
+    foreach($resourceArray as $resource) {
 
 	$updateDateFormatted=normalize_date($resource['updateDate']);
   $resourceValues = array(
@@ -120,7 +142,7 @@ foreach($resourceArray as $resource) {
     $updateDateFormatted,
     $resource['updateName'],
     $resource['status'],
-    $resource['isbnOrISSN'], //DEBUG _ this attribute doesn't exist anymore
+    $resource['identifier'], 
     $resource['resourceURL'],
     $resource['resourceAltURL'],	
     $resource['organizationNames'],
@@ -156,5 +178,7 @@ foreach($resourceArray as $resource) {
   );
 	
 	echo array_to_csv_row($resourceValues);
+}
+
 }
 ?>
