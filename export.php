@@ -72,17 +72,15 @@ if ($_GET['format'] && $_GET['format'] == 'kbart') {
     );
     echo array_to_csv_row($columnHeaders);
     foreach($resourceArray as $resource) {
-
-	$updateDateFormatted=normalize_date($resource['updateDate']);
-  $resourceValues = array(
-	  $resource['resourceID'],
-    $resource['titleText'],
-    $resource['isbnOrISSN'], //DEBUG _ this attribute doesn't exist anymore
-    $resource['resourceURL'],
-    $resource['organizationNames'],
-  );
-	
-	echo array_to_csv_row($resourceValues);
+        $updateDateFormatted=normalize_date($resource['updateDate']);
+        $resourceValues = array(
+            $resource['resourceID'],
+            $resource['titleText'],
+            $resource['identifier'],
+            $resource['resourceURL'],
+            $resource['organizationNames'],
+        );
+        echo array_to_csv_row($resourceValues);
     }
 
 } else {
@@ -144,7 +142,7 @@ if ($_GET['format'] && $_GET['format'] == 'kbart') {
     $updateDateFormatted,
     $resource['updateName'],
     $resource['status'],
-    $resource['isbnOrISSN'], //DEBUG _ this attribute doesn't exist anymore
+    $resource['identifier'], 
     $resource['resourceURL'],
     $resource['resourceAltURL'],	
     $resource['organizationNames'],
