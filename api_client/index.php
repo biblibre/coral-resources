@@ -83,7 +83,7 @@ if ($_POST['submitProposeResourceForm']) {
 
 <fieldset>
 <legend>Format</legend>
-<?php getResourceFormatsAsRadio($server); ?>
+<?php getResourceFormatsAsDropdown($server); ?>
 </fieldset>
 
 <fieldset>
@@ -93,7 +93,7 @@ if ($_POST['submitProposeResourceForm']) {
 
 <fieldset>
 <legend>Resource Type</legend>
-<?php getResourceTypesAsRadio($server); ?>
+<?php getResourceTypesAsDropdown($server); ?>
 </fieldset>
 
 <fieldset>
@@ -177,11 +177,13 @@ if ($_POST['submitProposeResourceForm']) {
 }
 }
 
-function getResourceTypesAsRadio($server) {
+function getResourceTypesAsDropdown($server) {
     $response = Unirest\Request::post($server . "getResourceTypes/", $headers, $body);
+    echo '<select name="resourceTypeID">';
     foreach ($response->body as $resourceType) {
-        echo ' <input type="radio" name="resourceTypeID" value="' . $resourceType->resourceTypeID . '">' . $resourceType->shortName;
+        echo ' <option value="' . $resourceType->resourceTypeID  . '">' . $resourceType->shortName . "</option>";
     }
+    echo '</select>';
 }
 
 function getAcquisitionTypesAsRadio($server) {
@@ -191,11 +193,13 @@ function getAcquisitionTypesAsRadio($server) {
     }
 }
 
-function getResourceFormatsAsRadio($server) {
+function getResourceFormatsAsDropdown($server) {
     $response = Unirest\Request::post($server . "getResourceFormats/", $headers, $body);
+    echo '<select name="resourceFormatID">';
     foreach ($response->body as $resourceType) {
-        echo ' <input type="radio" name="resourceFormatID" value="' . $resourceType->resourceFormatID . '">' . $resourceType->shortName;
+        echo ' <option value="' . $resourceType->resourceFormatID . '">' . $resourceType->shortName . "</option>";
     }
+    echo '</select>';
 }
 
 function getAdministeringSitesAsCheckBoxes($server) {
