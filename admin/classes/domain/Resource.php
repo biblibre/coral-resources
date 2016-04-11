@@ -245,8 +245,8 @@ class Resource extends DatabaseObject {
                         $licArray = array();
                         //first, get the license name
                         $query = "SELECT shortName FROM " . $dbName . ".License WHERE licenseID = " . $result['licenseID'];
-                        if ($licResult = mysql_query($query)) {
-                              while ($licRow = mysql_fetch_assoc($licResult)) {
+                        if ($licResult = $this->db->query($query)) {
+                              while ($licRow = $licResult->fetch_assoc()) {
                                     $licArray['license'] = $licRow['shortName'];
                                     $licArray['licenseID'] = $result['licenseID'];
                               }

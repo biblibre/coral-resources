@@ -289,7 +289,6 @@
 			<td style='vertical-align:top;width:110px;'><?php echo _("Licenses:");?></td>
 			<td style='width:350px;'>
 			<?php
-
 			if (count($licenseArray) > 0){
 				foreach ($licenseArray as $license){
 					echo $license['license'] . "&nbsp;&nbsp;<a href='" . $util->getLicensingURL() . $license['licenseID'] . "' target='_blank'><img src='images/arrow-up-right.gif' alt='"._("View License")."' title='"._("View License")."' style='vertical-align:top;'></a><br />";
